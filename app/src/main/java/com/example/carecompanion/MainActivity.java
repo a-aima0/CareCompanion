@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     TextView verifyEmailBanner;
-    Button logoutButton, verifyEmailButton;
+    Button logoutButton, verifyEmailButton, gotoProfileButton;
     FirebaseAuth fAuth;
     AlertDialog.Builder resetEmailAlert, deleteAlert;
     LayoutInflater inflater;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         logoutButton = findViewById(R.id.logoutButton);
+        gotoProfileButton = findViewById(R.id.gotoProfileButton);
         verifyEmailButton = findViewById(R.id.verifyEmailButton);
         verifyEmailBanner = findViewById(R.id.verifyEmailBanner);
 
@@ -47,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
         inflater = this.getLayoutInflater();
 
         fAuth = FirebaseAuth.getInstance();
+
+        gotoProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                finish();
+            }
+        });
 
         if (!fAuth.getCurrentUser().isEmailVerified()){
             verifyEmailButton.setVisibility(View.VISIBLE);
@@ -186,4 +195,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
