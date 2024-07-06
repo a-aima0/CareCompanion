@@ -43,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
     String userID;
     ImageView profileImage;
     StorageReference storageReference;
-    private ActivityResultLauncher<Intent> activityResultLauncher;
+//    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+
         DocumentReference documentReference = fStore.collection("users").document(userID);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -98,22 +99,17 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Initialize ActivityResultLauncher
-        activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                        Uri imageUri = result.getData().getData();
-                        uploadImageToFirebase(imageUri);
-                    }
-                }
-        );
 
         changeProfileImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                activityResultLauncher.launch(openGalleryIntent);
+
+                Intent i = new Intent(v.getContext(), EditProfileActivity.class);
+                i.putExtra("forename",profileForename.getText().toString());
+                i.putExtra("surnames", profileSurname.getText().toString());
+                i.putExtra("email", profileEmail.getText().toString());
+                startActivity(i);
+
             }
         });
     }
@@ -124,30 +120,5 @@ public class ProfileActivity extends AppCompatActivity {
         // Deprecated and not used in the refactored code
     }
 
-    private void uploadImageToFirebase(Uri imageUri) {
-        // upload image to firebase storage
-        StorageReference fileReference = storageReference.child("users/" + Objects.requireNonNull(fAuth.getCurrentUser()).getUid() + "/profileImage.jpg");
-        fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // set image from url of storage to imageView using picasso library
-                fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profileImage);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProfileActivity.this, "Failed Upload", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+
 }
