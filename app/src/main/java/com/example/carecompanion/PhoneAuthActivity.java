@@ -180,4 +180,3 @@ public class PhoneAuthActivity extends AppCompatActivity {
         }
     }
 }
-
