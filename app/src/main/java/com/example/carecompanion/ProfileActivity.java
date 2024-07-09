@@ -36,14 +36,14 @@ import java.util.Objects;
 public class ProfileActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
-    TextView profileForename, profileSurname, profileEmail;
-    Button gotoHomeButton, changeProfileImageButton;
+    TextView profileForename, profileSurname, profileEmail, profilePhone;
+    Button gotoHomeButton, changeProfileButton;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
     ImageView profileImage;
     StorageReference storageReference;
-//    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +53,9 @@ public class ProfileActivity extends AppCompatActivity {
         profileForename = findViewById(R.id.profileForename);
         profileSurname = findViewById(R.id.profileSurname);
         profileEmail = findViewById(R.id.profileEmail);
+        profilePhone = findViewById(R.id.profilePhone);
         profileImage = findViewById(R.id.profileImage);
-        changeProfileImageButton = findViewById(R.id.changeProfileImageButton);
+        changeProfileButton = findViewById(R.id.changeProfileButton);
         gotoHomeButton = findViewById(R.id.gotoHomeButton);
 
         fAuth = FirebaseAuth.getInstance();
@@ -70,9 +71,12 @@ public class ProfileActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                // Set a placeholder image if profile image is not found
+                profileImage.setImageResource(R.drawable.placeholder);
+                Log.e(TAG, "onFailure: Profile image not found, setting placeholder", e);
             }
         });
+
 
         userID = fAuth.getCurrentUser().getUid();
 
@@ -93,6 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
                     profileForename.setText(documentSnapshot.getString("forename"));
                     profileSurname.setText(documentSnapshot.getString("surnames"));
                     profileEmail.setText(documentSnapshot.getString("email"));
+                    profilePhone.setText(documentSnapshot.getString("phone"));
                 } else {
                     Log.d(TAG, "onEvent: Document does not exist");
                 }
@@ -100,7 +105,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-        changeProfileImageButton.setOnClickListener(new View.OnClickListener() {
+        changeProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -108,6 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
                 i.putExtra("forename",profileForename.getText().toString());
                 i.putExtra("surnames", profileSurname.getText().toString());
                 i.putExtra("email", profileEmail.getText().toString());
+                i.putExtra("phone", profilePhone.getText().toString());
                 startActivity(i);
 
             }

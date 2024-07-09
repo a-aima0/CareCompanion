@@ -1,0 +1,66 @@
+07/07/2024
+
+tasks completed today:
+- added phone authentication using a OTP
+- user puts in phone number, OTP sends, and can verify
+
+problems encountered and fixes:
+- tried to use an android alert message but decided that an activity would be better
+- there are only three alert buttons for an alert dialogue (positive, neutral and negative)
+- this function required more than that.
+
+current problems:
+- the user can register with the OTP which should not be allowed
+- the user should only be able to login with OTP if they alr have an account made
+- e.g. create an account, then login with OTP using phone number
+
+future steps:
+- put phone number into the database as a feature of each user
+- implement firestore into the otp feature
+- make it so either email or phone number can be used to login in once the initial account is made
+- adding a loading dialogue
+- toast message telling the user the timeout count for them to hit "resend OTP".
+----------------------------------------------------------------------------------------------------
+08/07/2024
+
+tasks completed today:
+- changed the entire program to include phone number as a user field including in authentication and firestore
+
+problems encountered and fixes:
+- kept getting error: object not at location
+- found the error was due to incorrect profile image handling
+- changed the code in editprofileactivity and profileactivity
+- app now has a placeholder image until the user decided to add their own image
+
+current problems:
+- the user can register with the OTP which should not be allowed
+- the user should only be able to login with OTP if they alr have an account made
+- e.g. create an account, then login with OTP using phone number
+- can possibly be fixed by implementing firestore into the OTP feature
+
+future steps:
+- make it so either email or phone number can be used to login in once the initial account is made
+- adding a loading dialogue
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- include countrycode in the register page
+- google mail authentication a and sign in
+----------------------------------------------------------------------------------------------------
+09/07/2024
+
+tasks completed today:
+
+
+problems encountered and fixes:
+
+current problems:
+- the user can register with the OTP which should not be allowed
+- the user should only be able to login with OTP if they alr have an account made
+- e.g. create an account, then login with OTP using phone number
+- can possibly be fixed by implementing firestore into the OTP feature
+
+future steps:
+- make it so either email or phone number can be used to login in once the initial account is made
+- adding a loading dialogue
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- include countrycode in the register page
+- google mail authentication a and sign in
