@@ -45,7 +45,7 @@ import java.util.Objects;
 public class EditProfileActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
-    EditText profileEditForename, profileEditSurname, profileEditEmail;
+    EditText profileEditForename, profileEditSurname, profileEditEmail, profileEditPhone;
     Button saveProfileInfoButton, gotoProfileActivityButton;
     ImageView profileEditImage;
     FirebaseAuth fAuth;
@@ -63,6 +63,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String forename = profileData.getStringExtra("forename");
         String surnames = profileData.getStringExtra("surnames");
         String email = profileData.getStringExtra("email");
+        String phone = profileData.getStringExtra("phone");
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -72,24 +73,33 @@ public class EditProfileActivity extends AppCompatActivity {
         profileEditForename = findViewById(R.id.profileEditForename);
         profileEditSurname = findViewById(R.id.profileEditSurname);
         profileEditEmail = findViewById(R.id.profileEditEmail);
+        profileEditPhone = findViewById(R.id.profileEditPhone);
         profileEditImage = findViewById(R.id.profileEditImage);
         saveProfileInfoButton = findViewById(R.id.saveProfileInfoButton);
         gotoProfileActivityButton = findViewById(R.id.gotoProfileActivityButton);
 
-        StorageReference profileReference = storageReference.child("users/" + Objects.requireNonNull(fAuth.getCurrentUser()).getUid() + "/profileImage.jpg");
-        profileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(profileEditImage);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (user != null) {
+            StorageReference profileReference = storageReference.child("users/" + user.getUid() + "/profileImage.jpg");
+            profileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).into(profileEditImage);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Set a placeholder image if profile image is not found
+                    profileEditImage.setImageResource(R.drawable.placeholder);
+                    Log.e(TAG, "onFailure: Profile image not found, setting placeholder", e);
+                }
+            });
+        } else {
+            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "onCreate: User not authenticated");
+        }
 
-        // Initialize ActivityResultLauncher
+
+        // intialise ActivityResultLauncher
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -113,6 +123,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(profileEditForename.getText().toString().isEmpty()
                         || profileEditSurname.getText().toString().isEmpty()
+                        || profileEditPhone.getText().toString().isEmpty()
                         || profileEditEmail.getText().toString().isEmpty()) {
                     Toast.makeText(EditProfileActivity.this, "One or many fields are empty", Toast.LENGTH_SHORT).show();
                     return;
@@ -126,8 +137,9 @@ public class EditProfileActivity extends AppCompatActivity {
         profileEditForename.setText(forename);
         profileEditSurname.setText(surnames);
         profileEditEmail.setText(email);
+        profileEditPhone.setText(phone);
 
-        Log.d(TAG, "onCreate: " + forename + " " + surnames + " " + email);
+        Log.d(TAG, "onCreate: " + forename + " " + surnames + " " + email + " " + phone);
 
         gotoProfileActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,31 +152,39 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void uploadImageToFirebase(Uri imageUri) {
-        // upload image to firebase storage
-        StorageReference fileReference = storageReference.child("users/" + Objects.requireNonNull(fAuth.getCurrentUser()).getUid() + "/profileImage.jpg");
-        fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // set image from url of storage to imageView using picasso library
-                fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profileEditImage);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Failed Upload", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (user != null) {
+            // Upload image to Firebase Storage
+            StorageReference fileReference = storageReference.child("users/" + user.getUid() + "/profileImage.jpg");
+            fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // Get download URL and set image to ImageView using Picasso
+                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Picasso.get().load(uri).into(profileEditImage);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EditProfileActivity.this, "Failed to retrieve uploaded image URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "Failed to retrieve uploaded image URL", e);
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(EditProfileActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Failed to upload image", e);
+                }
+            });
+        } else {
+            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "User not authenticated");
+        }
     }
+
 
     private void promptPasswordAndReauthenticate(String newEmail) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -179,6 +199,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String password = input.getText().toString();
+
                 AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
 
                 user.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -192,10 +213,12 @@ public class EditProfileActivity extends AppCompatActivity {
                                 edited.put("email", newEmail);
                                 edited.put("forename", profileEditForename.getText().toString());
                                 edited.put("surnames", profileEditSurname.getText().toString());
+                                edited.put("phone", profileEditPhone.getText().toString());
                                 documentReference.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        Toast.makeText(EditProfileActivity.this, "Profile updated successfully. If email was changed, email verification sent", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(EditProfileActivity.this, "If email was changed, email verification sent", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                                         finish();
                                     }
@@ -222,6 +245,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 });
             }
         });
+
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override

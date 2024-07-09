@@ -29,7 +29,7 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
-    EditText registerForename, registerSurnames, registerEmail, registerPassword, registerConfirmPassword;
+    EditText registerForename, registerSurnames, registerEmail, registerPhone, registerPassword, registerConfirmPassword;
     Button registerButton, gotoLogin;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerForename = findViewById(R.id.registerForename);
         registerSurnames = findViewById(R.id.registerSurnames);
         registerEmail = findViewById(R.id.registerEmail);
+        registerPhone = findViewById(R.id.registerPhone);
         registerPassword = findViewById(R.id.registerPassword);
         registerConfirmPassword = findViewById(R.id.registerConfirmPassword);
         registerButton = findViewById(R.id.registerButton);
@@ -67,6 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String forename = registerForename.getText().toString();
                 String surnames = registerSurnames.getText().toString();
                 String email = registerEmail.getText().toString();
+                String phone = registerPhone.getText().toString();
                 String password = registerPassword.getText().toString();
                 String confirmPassword = registerConfirmPassword.getText().toString();
 
@@ -81,6 +83,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (email.isEmpty()){
                     registerEmail.setError("Email is required");
+                    return;
+                }
+                if (phone.isEmpty()){
+                    registerPhone.setError("Phone is required");
                     return;
                 }
 
@@ -116,6 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
                         user.put("forename",forename);
                         user.put("surnames", surnames);
                         user.put("email", email);
+                        user.put("phone", phone);
 
                         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

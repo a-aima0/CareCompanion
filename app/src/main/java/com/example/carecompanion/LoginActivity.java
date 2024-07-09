@@ -3,10 +3,12 @@ package com.example.carecompanion;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,16 +17,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText loginEmail, loginPassword;
-    Button createAccountButton, loginButton, forgetPasswordButton;
+    Button createAccountButton, loginButton, forgetPasswordButton, gotoPhoneActivityButton;
     FirebaseAuth fAuth;
     AlertDialog.Builder resetPasswordAlert;
     LayoutInflater inflater;
+
 
 
     @Override
@@ -37,8 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         inflater = this.getLayoutInflater();
 
 
-
         createAccountButton = findViewById(R.id.createAccountButton);
+        gotoPhoneActivityButton = findViewById(R.id.gotoPhoneActivityButton);
 
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +128,14 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        gotoPhoneActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), PhoneAuthActivity.class));
+            }
+        });
+
     }
 
     @Override
