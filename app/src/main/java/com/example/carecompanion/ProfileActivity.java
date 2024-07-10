@@ -36,7 +36,7 @@ import java.util.Objects;
 public class ProfileActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
-    TextView profileForename, profileSurname, profileEmail, profilePhone;
+    TextView profileForename, profileSurname, profileEmail, profilePhone, profileCCode;
     Button gotoHomeButton, changeProfileButton;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -53,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileForename = findViewById(R.id.profileForename);
         profileSurname = findViewById(R.id.profileSurname);
         profileEmail = findViewById(R.id.profileEmail);
+        profileCCode = findViewById(R.id.profileCCode);
         profilePhone = findViewById(R.id.profilePhone);
         profileImage = findViewById(R.id.profileImage);
         changeProfileButton = findViewById(R.id.changeProfileButton);
@@ -97,6 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
                     profileForename.setText(documentSnapshot.getString("forename"));
                     profileSurname.setText(documentSnapshot.getString("surnames"));
                     profileEmail.setText(documentSnapshot.getString("email"));
+                    profileCCode.setText(documentSnapshot.getString("ccode"));
                     profilePhone.setText(documentSnapshot.getString("phone"));
                 } else {
                     Log.d(TAG, "onEvent: Document does not exist");
@@ -113,6 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
                 i.putExtra("forename",profileForename.getText().toString());
                 i.putExtra("surnames", profileSurname.getText().toString());
                 i.putExtra("email", profileEmail.getText().toString());
+                i.putExtra("ccode", profileCCode.getText().toString());
                 i.putExtra("phone", profilePhone.getText().toString());
                 startActivity(i);
 
