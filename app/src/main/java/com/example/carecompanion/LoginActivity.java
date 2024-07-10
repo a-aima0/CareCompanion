@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -20,14 +21,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String TAG = null;
     EditText loginEmail, loginPassword;
     Button createAccountButton, loginButton, forgetPasswordButton, gotoPhoneActivityButton;
     FirebaseAuth fAuth;
+    FirebaseUser currentUser;
     AlertDialog.Builder resetPasswordAlert;
     LayoutInflater inflater;
 
@@ -39,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         fAuth = FirebaseAuth.getInstance();
+        currentUser = fAuth.getCurrentUser();
         resetPasswordAlert = new AlertDialog.Builder(this);
         inflater = this.getLayoutInflater();
 
@@ -112,7 +117,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 // data is validated
                 // login user
-                fAuth.signInWithEmailAndPassword(loginEmail.getText().toString(), loginPassword.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                fAuth.signInWithEmailAndPassword(loginEmail.getText().toString(), loginPassword.getText().toString())
+                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         // login is successfull
@@ -123,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onFailure: Authentication failed: " + e.getMessage() );
                     }
                 });
 
@@ -141,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+        if(currentUser != null){
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }

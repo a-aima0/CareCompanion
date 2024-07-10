@@ -45,7 +45,7 @@ import java.util.Objects;
 public class EditProfileActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
-    EditText profileEditForename, profileEditSurname, profileEditEmail, profileEditPhone;
+    EditText profileEditForename, profileEditSurname, profileEditEmail, profileEditPhone, profileEditCCode;
     Button saveProfileInfoButton, gotoProfileActivityButton;
     ImageView profileEditImage;
     FirebaseAuth fAuth;
@@ -64,6 +64,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String surnames = profileData.getStringExtra("surnames");
         String email = profileData.getStringExtra("email");
         String phone = profileData.getStringExtra("phone");
+        String ccode = profileData.getStringExtra("ccode");
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -74,6 +75,7 @@ public class EditProfileActivity extends AppCompatActivity {
         profileEditSurname = findViewById(R.id.profileEditSurname);
         profileEditEmail = findViewById(R.id.profileEditEmail);
         profileEditPhone = findViewById(R.id.profileEditPhone);
+        profileEditCCode = findViewById(R.id.profileEditCCode);
         profileEditImage = findViewById(R.id.profileEditImage);
         saveProfileInfoButton = findViewById(R.id.saveProfileInfoButton);
         gotoProfileActivityButton = findViewById(R.id.gotoProfileActivityButton);
@@ -124,6 +126,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 if(profileEditForename.getText().toString().isEmpty()
                         || profileEditSurname.getText().toString().isEmpty()
                         || profileEditPhone.getText().toString().isEmpty()
+                        || profileEditCCode.getText().toString().isEmpty()
                         || profileEditEmail.getText().toString().isEmpty()) {
                     Toast.makeText(EditProfileActivity.this, "One or many fields are empty", Toast.LENGTH_SHORT).show();
                     return;
@@ -138,8 +141,9 @@ public class EditProfileActivity extends AppCompatActivity {
         profileEditSurname.setText(surnames);
         profileEditEmail.setText(email);
         profileEditPhone.setText(phone);
+        profileEditCCode.setText(ccode);
 
-        Log.d(TAG, "onCreate: " + forename + " " + surnames + " " + email + " " + phone);
+        Log.d(TAG, "onCreate: " + forename + " " + surnames + " " + email + " " +  "+" + ccode + " " + phone);
 
         gotoProfileActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,6 +217,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                 edited.put("email", newEmail);
                                 edited.put("forename", profileEditForename.getText().toString());
                                 edited.put("surnames", profileEditSurname.getText().toString());
+                                edited.put("ccode", profileEditCCode.getText().toString());
                                 edited.put("phone", profileEditPhone.getText().toString());
                                 documentReference.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
