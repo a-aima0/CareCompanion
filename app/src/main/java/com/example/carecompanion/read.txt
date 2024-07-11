@@ -110,7 +110,7 @@ fixed problems:
 
 current problems:
 - now when i sign in with phonenumber, it takes me to a blank user profile page
-- because the unique userID of phoneauthetnciation and emailpassword authentication are differnt.
+- because the unique userID of phoneauthetnciation and emailpassword authentication are different
 
 
 
