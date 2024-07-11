@@ -94,3 +94,33 @@ future steps:
 - and way to access this page from the locked start screen.
 - google maps API
 - improve UI design
+----------------------------------------------------------------------------------------------------
+11/07/2024
+
+tasks completed today:
+- i have decided to make two collecions, one for private data and one for public data
+- private data (surnames, email) and public data (forename, ccode, phone)
+-
+
+fixed problems:
+- forgot password button from the loginActivity doesn't sent verification link
+- email is not updated in the login from edit profile and verification link not sent
+- edited code in the EditProfileActivity
+-
+
+current problems:
+- now when i sign in with phonenumber, it takes me to a blank user profile page
+- because the unique userID of phoneauthetnciation and emailpassword authentication are differnt.
+
+
+
+future steps:
+- make it so either email or phone number can be used to login in once the initial account is made
+- adding a loading dialogue where-ever necessary
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- google mail authentication a and sign in
+- password secure settings
+- include medical ID page with all necessary information
+- and way to access this page from the locked start screen.
+- google maps API
+- improve UI design
