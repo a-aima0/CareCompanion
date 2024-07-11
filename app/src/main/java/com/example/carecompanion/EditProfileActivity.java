@@ -25,13 +25,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -44,7 +47,7 @@ import java.util.Objects;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    public static final String TAG = "TAG";
+    public static final String TAG = "EditProfileActivity";
     EditText profileEditForename, profileEditSurname, profileEditEmail, profileEditPhone, profileEditCCode;
     Button saveProfileInfoButton, gotoProfileActivityButton;
     ImageView profileEditImage;
@@ -79,6 +82,45 @@ public class EditProfileActivity extends AppCompatActivity {
         profileEditImage = findViewById(R.id.profileEditImage);
         saveProfileInfoButton = findViewById(R.id.saveProfileInfoButton);
         gotoProfileActivityButton = findViewById(R.id.gotoProfileActivityButton);
+
+        // Retrieve public data
+        DocumentReference publicDocRef = fStore.collection("public").document(user.getUid());
+        publicDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    profileEditForename.setText(documentSnapshot.getString("forename"));
+                    profileEditCCode.setText(documentSnapshot.getString("ccode"));
+                    profileEditPhone.setText(documentSnapshot.getString("phone"));
+                } else {
+                    Log.d(TAG, "No public document found");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Failed to retrieve public document: " + e.getMessage());
+            }
+        });
+
+        // Retrieve private data
+        DocumentReference privateDocRef = fStore.collection("private").document(user.getUid());
+        privateDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    profileEditSurname.setText(documentSnapshot.getString("surnames"));
+                    profileEditEmail.setText(documentSnapshot.getString("email"));
+                } else {
+                    Log.d(TAG, "No private document found");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Failed to retrieve private document: " + e.getMessage());
+            }
+        });
 
         if (user != null) {
             StorageReference profileReference = storageReference.child("users/" + user.getUid() + "/profileImage.jpg");
@@ -123,7 +165,7 @@ public class EditProfileActivity extends AppCompatActivity {
         saveProfileInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(profileEditForename.getText().toString().isEmpty()
+                if (profileEditForename.getText().toString().isEmpty()
                         || profileEditSurname.getText().toString().isEmpty()
                         || profileEditPhone.getText().toString().isEmpty()
                         || profileEditCCode.getText().toString().isEmpty()
@@ -143,7 +185,7 @@ public class EditProfileActivity extends AppCompatActivity {
         profileEditPhone.setText(phone);
         profileEditCCode.setText(ccode);
 
-        Log.d(TAG, "onCreate: " + forename + " " + surnames + " " + email + " " +  "+" + ccode + " " + phone);
+        Log.d(TAG, "onCreate: " + forename + " " + surnames + " " + email + " " + "+" + ccode + " " + phone);
 
         gotoProfileActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,6 +231,86 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
+//    private void promptPasswordAndReauthenticate(String newEmail) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Reauthenticate");
+//        builder.setMessage("Please enter your current password to continue:");
+//
+//        final EditText input = new EditText(this);
+//        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//        builder.setView(input);
+//
+//        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                String password = input.getText().toString();
+//
+//                AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
+//
+//                // Reauthenticate user
+//                user.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        // Update private data
+//                        DocumentReference privateDocRef = fStore.collection("private").document(user.getUid());
+//                        Map<String, Object> privateUpdates = new HashMap<>();
+//                        privateUpdates.put("email", newEmail);
+//                        privateUpdates.put("surnames", profileEditSurname.getText().toString());
+//
+//                        privateDocRef.update(privateUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                // Update public data
+//                                DocumentReference publicDocRef = fStore.collection("public").document(user.getUid());
+//                                Map<String, Object> publicUpdates = new HashMap<>();
+//                                publicUpdates.put("forename", profileEditForename.getText().toString());
+//                                publicUpdates.put("ccode", profileEditCCode.getText().toString());
+//                                publicUpdates.put("phone", profileEditPhone.getText().toString());
+//
+//                                publicDocRef.update(publicUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void aVoid) {
+//                                        Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(EditProfileActivity.this, "If email changed, verification link sent", Toast.LENGTH_SHORT).show();
+//
+//                                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+//                                        finish();
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Toast.makeText(EditProfileActivity.this, "Error updating public data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(EditProfileActivity.this, "Error updating private data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(EditProfileActivity.this, "Authentication failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//            }
+//        });
+//
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        builder.show();
+//
+//    }
+
 
     private void promptPasswordAndReauthenticate(String newEmail) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -209,36 +331,84 @@ public class EditProfileActivity extends AppCompatActivity {
                 user.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        user.verifyBeforeUpdateEmail(newEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+//                        user.verifyBeforeUpdateEmail(newEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                DocumentReference documentReference = fStore.collection("users").document(user.getUid());
+//                                Map<String, Object> edited = new HashMap<>();
+//                                edited.put("email", newEmail);
+//                                edited.put("forename", profileEditForename.getText().toString());
+//                                edited.put("surnames", profileEditSurname.getText().toString());
+//                                edited.put("ccode", profileEditCCode.getText().toString());
+//                                edited.put("phone", profileEditPhone.getText().toString());
+//                                documentReference.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void unused) {
+//                                        Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(EditProfileActivity.this, "If email was changed, email verification sent", Toast.LENGTH_SHORT).show();
+//                                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+//                                        finish();
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+                        // Update private data
+                        DocumentReference privateDocRef = fStore.collection("private").document(user.getUid());
+                        Map<String, Object> privateUpdates = new HashMap<>();
+                        privateUpdates.put("email", newEmail);
+                        privateUpdates.put("surnames", profileEditSurname.getText().toString());
+
+                        privateDocRef.update(privateUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(Void unused) {
-                                DocumentReference documentReference = fStore.collection("users").document(user.getUid());
-                                Map<String, Object> edited = new HashMap<>();
-                                edited.put("email", newEmail);
-                                edited.put("forename", profileEditForename.getText().toString());
-                                edited.put("surnames", profileEditSurname.getText().toString());
-                                edited.put("ccode", profileEditCCode.getText().toString());
-                                edited.put("phone", profileEditPhone.getText().toString());
-                                documentReference.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            public void onSuccess(Void aVoid) {
+                                user.verifyBeforeUpdateEmail(newEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(EditProfileActivity.this, "If email was changed, email verification sent", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                                        finish();
+                                        // Update public data
+                                        DocumentReference publicDocRef = fStore.collection("public").document(user.getUid());
+                                        Map<String, Object> publicUpdates = new HashMap<>();
+                                        publicUpdates.put("forename", profileEditForename.getText().toString());
+                                        publicUpdates.put("ccode", profileEditCCode.getText().toString());
+                                        publicUpdates.put("phone", profileEditPhone.getText().toString());
+
+                                        publicDocRef.update(publicUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(EditProfileActivity.this, "If email changed, verification link sent", Toast.LENGTH_SHORT).show();
+
+                                                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                                                finish();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(EditProfileActivity.this, "Error updating public data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
                                     }
                                 });
-
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditProfileActivity.this, "Error updating private data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -261,8 +431,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
         builder.show();
     }
-}
 
+}
 
 
 // when I change the forename and surname, it gives the message "email is changed"
