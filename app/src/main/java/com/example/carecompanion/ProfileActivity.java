@@ -124,23 +124,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-//        DocumentReference documentReference = fStore.collection("users").document(userID);
-//        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-//                assert documentSnapshot != null;
-//                if (documentSnapshot.exists()) {
-//                    profileForename.setText(documentSnapshot.getString("forename"));
-//                    profileSurname.setText(documentSnapshot.getString("surnames"));
-//                    profileEmail.setText(documentSnapshot.getString("email"));
-//                    profileCCode.setText(documentSnapshot.getString("ccode"));
-//                    profilePhone.setText(documentSnapshot.getString("phone"));
-//                } else {
-//                    Log.d(TAG, "onEvent: Document does not exist");
-//                }
-//            }
-//        });
-
 
         changeProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override

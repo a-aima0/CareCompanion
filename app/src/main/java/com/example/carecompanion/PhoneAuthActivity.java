@@ -102,55 +102,6 @@ public class PhoneAuthActivity extends AppCompatActivity {
                 // Construct the full phone number
                 userPhoneNumber = "+" + cCode.getText().toString() + phoneNumber.getText().toString();
 
-//                // Check if user exists in Firestore
-//                CollectionReference publicRef = db.collection("public");
-//                CollectionReference privateRef = db.collection("private");
-//
-//                privateRef.document(userPhoneNumber)
-//                        .get()
-//                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    DocumentSnapshot privateDoc = task.getResult();
-//                                    if (privateDoc.exists()) {
-//                                        // User exists in private collection, send OTP for login
-//                                        verifyPhoneNumber(userPhoneNumber);
-//                                        Toast.makeText(getApplicationContext(), "Sending OTP to " + userPhoneNumber, Toast.LENGTH_SHORT).show();
-//                                        Log.d(TAG, "onComplete: sending OTP");
-//                                    } else {
-//                                        // User does not exist in private collection, check public collection
-//                                        publicRef.whereEqualTo("ccode", cCode.getText().toString())
-//                                                .whereEqualTo("phone", phoneNumber.getText().toString())
-//                                                .get()
-//                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                                    @Override
-//                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                                        if (task.isSuccessful()) {
-//                                                            if (!task.getResult().isEmpty()) {
-//                                                                // User exists in public collection, but private data is missing
-//                                                                Toast.makeText(getApplicationContext(), "Private data missing for the user. Contact support.", Toast.LENGTH_SHORT).show();
-//                                                                Log.d(TAG, "onComplete: private data missing for the user");
-//                                                            } else {
-//                                                                // User does not exist or combination of ccode and phone not found
-//                                                                Toast.makeText(getApplicationContext(), "User does not exist or invalid combination of country code and phone number.", Toast.LENGTH_SHORT).show();
-//                                                                Log.d(TAG, "onComplete: user does not exist or invalid combination of country code and phone number");
-//                                                            }
-//                                                        } else {
-//                                                            Toast.makeText(getApplicationContext(), "Error checking user existence: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                                                            Log.d(TAG, "onComplete: error checking user existence" + task.getException().getMessage());
-//                                                            Log.e(TAG, "onComplete: error checking user existence", task.getException());
-//                                                        }
-//                                                    }
-//                                                });
-//                                    }
-//                                } else {
-//                                    Toast.makeText(getApplicationContext(), "Error checking user existence: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                                    Log.d(TAG, "onComplete: error checking user existence" + task.getException().getMessage());
-//                                    Log.e(TAG, "onComplete: error checking user existence", task.getException());
-//                                }
-//                            }
-//                        });
 
                 db.collection("public")
                         .whereEqualTo("ccode", cCode.getText().toString())

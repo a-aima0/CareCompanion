@@ -231,86 +231,6 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-//    private void promptPasswordAndReauthenticate(String newEmail) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Reauthenticate");
-//        builder.setMessage("Please enter your current password to continue:");
-//
-//        final EditText input = new EditText(this);
-//        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//        builder.setView(input);
-//
-//        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                String password = input.getText().toString();
-//
-//                AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
-//
-//                // Reauthenticate user
-//                user.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        // Update private data
-//                        DocumentReference privateDocRef = fStore.collection("private").document(user.getUid());
-//                        Map<String, Object> privateUpdates = new HashMap<>();
-//                        privateUpdates.put("email", newEmail);
-//                        privateUpdates.put("surnames", profileEditSurname.getText().toString());
-//
-//                        privateDocRef.update(privateUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void aVoid) {
-//                                // Update public data
-//                                DocumentReference publicDocRef = fStore.collection("public").document(user.getUid());
-//                                Map<String, Object> publicUpdates = new HashMap<>();
-//                                publicUpdates.put("forename", profileEditForename.getText().toString());
-//                                publicUpdates.put("ccode", profileEditCCode.getText().toString());
-//                                publicUpdates.put("phone", profileEditPhone.getText().toString());
-//
-//                                publicDocRef.update(publicUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                    @Override
-//                                    public void onSuccess(Void aVoid) {
-//                                        Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-//                                        Toast.makeText(EditProfileActivity.this, "If email changed, verification link sent", Toast.LENGTH_SHORT).show();
-//
-//                                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-//                                        finish();
-//                                    }
-//                                }).addOnFailureListener(new OnFailureListener() {
-//                                    @Override
-//                                    public void onFailure(@NonNull Exception e) {
-//                                        Toast.makeText(EditProfileActivity.this, "Error updating public data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                                    }
-//                                });
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(EditProfileActivity.this, "Error updating private data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(EditProfileActivity.this, "Authentication failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//
-//            }
-//        });
-//
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        builder.show();
-//
-//    }
-
 
     private void promptPasswordAndReauthenticate(String newEmail) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -332,37 +252,6 @@ public class EditProfileActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-//                        user.verifyBeforeUpdateEmail(newEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void unused) {
-//                                DocumentReference documentReference = fStore.collection("users").document(user.getUid());
-//                                Map<String, Object> edited = new HashMap<>();
-//                                edited.put("email", newEmail);
-//                                edited.put("forename", profileEditForename.getText().toString());
-//                                edited.put("surnames", profileEditSurname.getText().toString());
-//                                edited.put("ccode", profileEditCCode.getText().toString());
-//                                edited.put("phone", profileEditPhone.getText().toString());
-//                                documentReference.update(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                    @Override
-//                                    public void onSuccess(Void unused) {
-//                                        Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-//                                        Toast.makeText(EditProfileActivity.this, "If email was changed, email verification sent", Toast.LENGTH_SHORT).show();
-//                                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-//                                        finish();
-//                                    }
-//                                }).addOnFailureListener(new OnFailureListener() {
-//                                    @Override
-//                                    public void onFailure(@NonNull Exception e) {
-//                                        Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                                    }
-//                                });
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(EditProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
                         // Update private data
                         DocumentReference privateDocRef = fStore.collection("private").document(user.getUid());
                         Map<String, Object> privateUpdates = new HashMap<>();
@@ -433,8 +322,3 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
 }
-
-
-// when I change the forename and surname, it gives the message "email is changed"
-// and "profile updated successfully", but when I change the email it gives the message
-// "this operation is not allowed. this may be because..."
