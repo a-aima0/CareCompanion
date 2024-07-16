@@ -146,3 +146,62 @@ future steps:
 - and way to access this page from the locked start screen.
 - google maps API
 - improve UI design
+----------------------------------------------------------------------------------------------------
+15/07/2024
+
+tasks completed today:
+- currently creating the createmedicalprofile and the medicalprofile
+
+fixed problems:
+
+current problems:
+- maybe: instead of accessing the create medical profile on registration
+- access the medical profile on the first start in the main activity, e.g. a banner that says create your medical profile
+- similar to the email verification one on first start, but the banner will go away when you click on it and say completed.
+- then click on button to go to medical profile activity , which will default be empty,
+- then can use the create medical profile to edit it.
+
+- the unique userID of phoneauthetnciation and emailpassword authentication are different
+- having problems with implementing a clean UI for the multiple line medical fields.
+
+future steps:
+- adding a loading dialogue where-ever necessary
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- google mail authentication a and sign in
+- password secure settings
+- include medical ID page with all necessary information
+- and way to access this page from the locked start screen.
+- google maps API
+- improve UI design
+----------------------------------------------------------------------------------------------------
+16/07/2024
+
+tasks completed today:
+- currently creating the createmedicalprofile and the medicalprofile
+- created buttons between all the activities.
+- all medical info now saves to firestore successfully
+- all medical info is successfully retrieved from firestore
+- done:  height, weight, dob, address, blood donor, organ donor
+- todo: allergies, medications, conditions, emergency contacts
+- maybe: prefernces, disabilities, additional notes
+
+fixed problems:
+- createmedicalprofileactiity was not retrieving data from the profile collection
+- edited firestore rules and restructured the activity
+
+current problems:
+- access the medical profile on the first start in the main activity, e.g. a banner that says create your medical profile
+- similar to the email verification one on first start, but the banner will go away when you click on it and say completed.
+- find way to do allergies, conditions, medications.
+
+- the unique userID of phoneauthetnciation and emailpassword authentication are different
+- having problems with implementing a clean UI for the multiple line medical fields.
+
+future steps:
+- adding a loading dialogue where-ever necessary
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- google mail authentication a and sign in
+- password secure settings
+- and way to access medical page from the locked start screen.
+- google maps API
+- improve UI design

@@ -37,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
     TextView profileForename, profileSurname, profileEmail, profilePhone, profileCCode;
-    Button gotoHomeButton, changeProfileButton;
+    Button gotoHomeButton, changeProfileButton, gotoMedicalProfileButton;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
@@ -58,6 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileImage = findViewById(R.id.profileImage);
         changeProfileButton = findViewById(R.id.changeProfileButton);
         gotoHomeButton = findViewById(R.id.gotoHomeButton);
+        gotoMedicalProfileButton = findViewById(R.id.gotoMedicalActivity);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -137,6 +138,13 @@ public class ProfileActivity extends AppCompatActivity {
                 i.putExtra("phone", profilePhone.getText().toString());
                 startActivity(i);
 
+            }
+        });
+
+        gotoMedicalProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MedicalProfileActivity.class));
             }
         });
     }

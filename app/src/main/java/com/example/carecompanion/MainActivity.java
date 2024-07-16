@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     TextView verifyEmailBanner;
-    Button logoutButton, verifyEmailButton, gotoProfileButton;
+    Button logoutButton, verifyEmailButton, gotoProfileButton, gotoMedicalActivity;
     FirebaseAuth fAuth;
     AlertDialog.Builder resetEmailAlert, deleteAlert;
     LayoutInflater inflater;
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         logoutButton = findViewById(R.id.logoutButton);
         gotoProfileButton = findViewById(R.id.gotoProfileButton);
+        gotoMedicalActivity = findViewById(R.id.gotoMedicalProfileActivity);
         verifyEmailButton = findViewById(R.id.verifyEmailButton);
         verifyEmailBanner = findViewById(R.id.verifyEmailBanner);
 
@@ -54,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 finish();
+            }
+        });
+
+        gotoMedicalActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CreateMedicalProfileActivity.class));
             }
         });
 
