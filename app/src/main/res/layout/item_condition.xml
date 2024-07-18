@@ -5,29 +5,29 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/allergyNameEditText"
+        android:id="@+id/conditionNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_weight="0.15"
-        android:layout_marginEnd="16dp"
         android:inputType="text"
-        android:hint="Allergy Name" />
+        android:layout_marginEnd="16dp"
+        android:hint="Condition Name" />
 
     <EditText
-        android:id="@+id/allergyDetailsEditText"
+        android:id="@+id/conditionDetailsEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginStart="16dp"
+        android:inputType="textMultiLine"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:inputType="textMultiLine"
-        android:hint="Allergy Details"/>
+        android:hint="Condition Details"/>
 
     <Button
-        android:id="@+id/deleteAllergyButton"
+        android:id="@+id/deleteConditionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -35,6 +35,5 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:text="Delete" />
-
 
 </LinearLayout>

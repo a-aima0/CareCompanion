@@ -5,29 +5,41 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/allergyNameEditText"
+        android:id="@+id/contactNameEditText"
         android:layout_width="match_parent"
+        android:inputType="textPersonName"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_weight="0.15"
         android:layout_marginEnd="16dp"
-        android:inputType="text"
-        android:hint="Allergy Name" />
+        android:hint="Emergency Contact Name" />
 
     <EditText
-        android:id="@+id/allergyDetailsEditText"
+        android:id="@+id/contactRelationEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginEnd="16dp"
+        android:hint="Emergency Contact Relation"/>
+
+    <EditText
+        android:id="@+id/contactPhoneEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginStart="16dp"
+        android:inputType="phone"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:inputType="textMultiLine"
-        android:hint="Allergy Details"/>
+        android:hint="Emergency Contact Phone Number"/>
 
     <Button
-        android:id="@+id/deleteAllergyButton"
+        android:id="@+id/deleteContactButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -35,6 +47,5 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:text="Delete" />
-
 
 </LinearLayout>
