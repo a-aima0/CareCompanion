@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,8 +19,10 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -37,11 +40,14 @@ import java.util.Map;
 public class CreateMedicalProfileActivity extends AppCompatActivity {
     public static final String TAG = "CreateMedicalProfileActivity";
     Spinner registerBloodTypeSpinner, registerOrganSpinner;
-    Button gotoMedicalActivityButton, saveChangesButton, addAllergyButton, deleteAllergyButton;
+    Button gotoMedicalActivityButton, addAllergyButton, saveChangesButton, addMedicationsButton,
+            addConditionButton, addContactButton;
     EditText registerWeight, registerHeight, registerDOB, registerFirstLine, registerSecondLine,
-            registerCity, registerPost, allergyNameEditText, allergyDetailsEditText;
+            registerCity, registerPost;
 
-    LinearLayout allergiesContainer;
+    LinearLayout allergiesContainer, dynamicAllergiesContainer, medicationsContainer,
+            dynamicMedicationsContainer, conditionsContainer, dynamicConditionsContainer,
+            contactsContainer, dynamicContactsContainer;
     String userID;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -62,10 +68,20 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
         registerPost = findViewById(R.id.registerPostalCode);
 
         addAllergyButton = findViewById(R.id.addAllergyButton);
-        deleteAllergyButton = findViewById(R.id.deleteAllergyButton);
-        allergyNameEditText = findViewById(R.id.allergyNameEditText);
-        allergyDetailsEditText = findViewById(R.id.allergyDetailsEditText);
         allergiesContainer = findViewById(R.id.allergiesContainer);
+        dynamicAllergiesContainer = findViewById(R.id.dynamicAllergiesContainer);
+
+        addMedicationsButton = findViewById(R.id.addMedicationButton);
+        medicationsContainer = findViewById(R.id.medicationsContainer);
+        dynamicMedicationsContainer = findViewById(R.id.dynamicMedicationsContainer);
+
+        addConditionButton = findViewById(R.id.addConditionButton);
+        conditionsContainer = findViewById(R.id.conditionsContainer);
+        dynamicConditionsContainer = findViewById(R.id.dynamicConditionsContainer);
+
+        addContactButton = findViewById(R.id.addContactsButton);
+        contactsContainer = findViewById(R.id.contactsContainer);
+        dynamicContactsContainer = findViewById(R.id.dynamicContactsContainer);
 
         gotoMedicalActivityButton = findViewById(R.id.gotoMedicalActivity);
         saveChangesButton = findViewById(R.id.saveChangesButton);
@@ -91,6 +107,12 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MedicalProfileActivity.class));
             }
         });
+
+        addAllergyButton.setOnClickListener(v -> addItemAllergy("", ""));
+        addMedicationsButton.setOnClickListener(v -> addItemMedication("", ""));
+        addConditionButton.setOnClickListener(v -> addItemCondition("", ""));
+        addContactButton.setOnClickListener(v -> addItemContact("", "", ""));
+
 
         // retrieving profile data
         user = fAuth.getCurrentUser();
@@ -130,6 +152,84 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                             registerOrganSpinner.setSelection(organDonorPosition);
                         }
 
+                        // retrieve and display allergies
+                        documentReference.collection("allergies").get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                   for (DocumentSnapshot allergyDoc : task.getResult()){
+                                       addItemAllergy(allergyDoc.getString("name"), allergyDoc.getString("details"));
+                                   }
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: could not retrieve allergies" + e.getMessage());
+                                Toast.makeText(CreateMedicalProfileActivity.this, "Allergies not retrieved", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        // retrieve and display medications
+                        documentReference.collection("medications").get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()){
+                                    for (DocumentSnapshot medicationDoc: task.getResult()){
+                                        addItemMedication(medicationDoc.getString("name"), medicationDoc.getString("details"));
+                                    }
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: could not retrieve medications" + e.getMessage());
+                                Toast.makeText(CreateMedicalProfileActivity.this, "Medications not retrieved", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        // retrieve and display conditions
+                        documentReference.collection("conditions").get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()){
+                                    for (DocumentSnapshot conditionDoc: task.getResult()){
+                                        addItemCondition(conditionDoc.getString("name"), conditionDoc.getString("details"));
+                                    }
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: could not retrieve conditions" + e.getMessage());
+                                Toast.makeText(CreateMedicalProfileActivity.this, "Conditions not retrieved", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        // retrieve and display contacts
+                        documentReference.collection("contacts").get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()){
+                                            for (DocumentSnapshot contactDoc: task.getResult()){
+                                                addItemContact(contactDoc.getString("name"),
+                                                        contactDoc.getString("relation"),
+                                                        contactDoc.getString("phone"));
+                                            }
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e(TAG, "onFailure: could not retrieve contacts" + e.getMessage());
+                                        Toast.makeText(CreateMedicalProfileActivity.this, "Contacts not retrieved", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -140,6 +240,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
             });
         } else {
             Log.d(TAG, "User not authenticated");
+            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -163,27 +264,27 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                 String fullAddress = firstlineAddress + ", " + secondlineAddress + ", " + cityAddress + ", " + postAddress;
 
                 // validate data
-                if (height.isEmpty()){
+                if (height.isEmpty()) {
                     registerHeight.setError("Height is required");
                     return;
                 }
-                if (weight.isEmpty()){
+                if (weight.isEmpty()) {
                     registerWeight.setError("Weight is required");
                     return;
                 }
-                if(dob.isEmpty()){
+                if (dob.isEmpty()) {
                     registerDOB.setError("Date of birth is required");
                     return;
                 }
-                if(postAddress.isEmpty()){
+                if (postAddress.isEmpty()) {
                     registerPost.setError("Postal code is required");
                     return;
                 }
-                if(cityAddress.isEmpty()){
+                if (cityAddress.isEmpty()) {
                     registerCity.setError("City is required");
                     return;
                 }
-                if (firstlineAddress.isEmpty()){
+                if (firstlineAddress.isEmpty()) {
                     registerFirstLine.setError("First line of address is required");
                     return;
                 }
@@ -191,7 +292,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
 
                 // check if user is authenticated
                 user = fAuth.getCurrentUser();
-                if (user != null){
+                if (user != null) {
                     userID = fAuth.getCurrentUser().getUid();
 
                     DocumentReference documentReference = fStore.collection("profile").document(userID);
@@ -204,19 +305,241 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                     profileData.put("organDonor", organDonor);
 
                     //saving profiledata
-                    documentReference.set(profileData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    documentReference.set(profileData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Log.d(TAG, "onSuccess: medical profile is created for " + userID);
                             Toast.makeText(CreateMedicalProfileActivity.this, "Medical Profile Updated", Toast.LENGTH_SHORT).show();
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
+                    })
+                            .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.d(TAG, "onFailure: " + e.getMessage());
                             Toast.makeText(CreateMedicalProfileActivity.this, "Error:data could not be saved " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                    // clear existing allergies in Firestore
+                    documentReference.collection("allergies")
+                            .get()
+                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                                        snapshot.getReference().delete();
+                                    }
+
+                                    // Iterate through each allergy view and save to Firestore
+                                    for (int i = 0; i < dynamicAllergiesContainer.getChildCount(); i++) {
+                                        View view = dynamicAllergiesContainer.getChildAt(i);
+                                        EditText nameEditText = view.findViewById(R.id.allergyNameEditText);
+                                        EditText detailsEditText = view.findViewById(R.id.allergyDetailsEditText);
+
+                                        String name = nameEditText.getText().toString().trim();
+                                        String details = detailsEditText.getText().toString().trim();
+
+                                        // Only save if both name and details are provided
+                                        if (!name.isEmpty() && !details.isEmpty()) {
+                                            Map<String, Object> allergyData = new HashMap<>();
+                                            allergyData.put("name", name);
+                                            allergyData.put("details", details);
+
+                                            documentReference.collection("allergies")
+                                                    .add(allergyData)
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentReference documentReference) {
+                                                            Log.d(TAG, "onSuccess: allergy successfully saved");
+                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Allergy saved successfully", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.d(TAG, "onFailure: failed to save allergy" + e.getMessage());
+                                                            Toast.makeText(CreateMedicalProfileActivity.this, "failed to save allergy", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                        } else {
+                                            Toast.makeText(CreateMedicalProfileActivity.this, "Name and Details are required", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e(TAG, "onFailure: failed to delete existing allergies" + e.getMessage());
+                                    Toast.makeText(CreateMedicalProfileActivity.this, "Failed to delete existing allergies", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                    // clear existing medications in Firestore
+                    documentReference.collection("medications")
+                            .get()
+                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                                        snapshot.getReference().delete();
+                                    }
+
+                                    // Iterate through each medications view and save to Firestore
+                                    for (int i = 0; i < dynamicMedicationsContainer.getChildCount(); i++) {
+                                        View view = dynamicMedicationsContainer.getChildAt(i);
+                                        EditText nameEditText = view.findViewById(R.id.medicationNameEditText);
+                                        EditText detailsEditText = view.findViewById(R.id.medicationDetailsEditText);
+
+                                        String name = nameEditText.getText().toString().trim();
+                                        String details = detailsEditText.getText().toString().trim();
+
+                                        // Only save if both name and details are provided
+                                        if (!name.isEmpty() && !details.isEmpty()) {
+                                            Map<String, Object> medicationData = new HashMap<>();
+                                            medicationData.put("name", name);
+                                            medicationData.put("details", details);
+
+                                            documentReference.collection("medications")
+                                                    .add(medicationData)
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentReference documentReference) {
+                                                            Log.d(TAG, "onSuccess: medication successfully saved");
+                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Medication saved successfully", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.d(TAG, "onFailure: failed to save medication" + e.getMessage());
+                                                            Toast.makeText(CreateMedicalProfileActivity.this, "failed to save medication", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                        } else {
+                                            Toast.makeText(CreateMedicalProfileActivity.this, "Name and Details are required", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e(TAG, "onFailure: failed to delete existing medications" + e.getMessage());
+                                    Toast.makeText(CreateMedicalProfileActivity.this, "Failed to delete existing medications", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+
+
+                    // clear existing conditions in Firestore
+                    documentReference.collection("conditions")
+                            .get()
+                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                                        snapshot.getReference().delete();
+                                    }
+
+                                    // Iterate through each condition view and save to Firestore
+                                    for (int i = 0; i < dynamicConditionsContainer.getChildCount(); i++) {
+                                        View view = dynamicConditionsContainer.getChildAt(i);
+                                        EditText nameEditText = view.findViewById(R.id.conditionNameEditText);
+                                        EditText detailsEditText = view.findViewById(R.id.conditionDetailsEditText);
+
+                                        String name = nameEditText.getText().toString().trim();
+                                        String details = detailsEditText.getText().toString().trim();
+
+                                        // Only save if both name and details are provided
+                                        if (!name.isEmpty() && !details.isEmpty()) {
+                                            Map<String, Object> conditionData = new HashMap<>();
+                                            conditionData.put("name", name);
+                                            conditionData.put("details", details);
+
+                                            documentReference.collection("conditions")
+                                                    .add(conditionData)
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentReference documentReference) {
+                                                            Log.d(TAG, "onSuccess: conditions successfully saved");
+                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Conditions saved successfully", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.d(TAG, "onFailure: failed to save conditions" + e.getMessage());
+                                                            Toast.makeText(CreateMedicalProfileActivity.this, "failed to save conditions", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                        } else {
+                                            Toast.makeText(CreateMedicalProfileActivity.this, "Name and Details are required", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e(TAG, "onFailure: failed to delete existing conditions" + e.getMessage());
+                                    Toast.makeText(CreateMedicalProfileActivity.this, "Failed to delete existing conditions", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+
+                    // clear existing contacts in Firestore
+                    documentReference.collection("contacts")
+                            .get()
+                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                                        snapshot.getReference().delete();
+                                    }
+
+                                    // Iterate through each contact view and save to Firestore
+                                    for (int i = 0; i < dynamicContactsContainer.getChildCount(); i++) {
+                                        View view = dynamicContactsContainer.getChildAt(i);
+                                        EditText nameEditText = view.findViewById(R.id.contactNameEditText);
+                                        EditText relationEditText = view.findViewById(R.id.contactRelationEditText);
+                                        EditText phoneEditText = view.findViewById(R.id.contactPhoneEditText);
+
+                                        String name = nameEditText.getText().toString().trim();
+                                        String relation = relationEditText.getText().toString().trim();
+                                        String phone = phoneEditText.getText().toString().trim();
+
+                                        // Only save if both name, relation and phone are provided
+                                        if (!name.isEmpty() && !relation.isEmpty() && !phone.isEmpty()) {
+                                            Map<String, Object> contactData = new HashMap<>();
+                                            contactData.put("name", name);
+                                            contactData.put("relation", relation);
+                                            contactData.put("phone", phone);
+
+                                            documentReference.collection("contacts")
+                                                    .add(contactData)
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentReference documentReference) {
+                                                            Log.d(TAG, "onSuccess: contacts successfully saved");
+                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Emergency contacs successfully saved", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.d(TAG, "onFailure: failed to save contacts" + e.getMessage());
+                                                            Toast.makeText(CreateMedicalProfileActivity.this, "failed to save contacts", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                        } else {
+                                            Toast.makeText(CreateMedicalProfileActivity.this, "Name, Relation and Phone Number are required", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e(TAG, "onFailure: failed to delete existing contacts" + e.getMessage());
+                                    Toast.makeText(CreateMedicalProfileActivity.this, "Failed to delete existing contacts", Toast.LENGTH_SHORT).show();
+                                    
+
+                                }
+                            });
 
 
                 } else {
@@ -228,5 +551,122 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
 
     }
 
+    private void addItemAllergy(String name, String details) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View itemAllergy = inflater.inflate(R.layout.item_allergy, dynamicAllergiesContainer, false);
+        EditText allergyNameEditText = itemAllergy.findViewById(R.id.allergyNameEditText);
+        EditText allergyDetailsEditText = itemAllergy.findViewById(R.id.allergyDetailsEditText);
+        Button deleteAllergyButton = itemAllergy.findViewById(R.id.deleteAllergyButton);
 
+        if (!name.isEmpty()) {
+            allergyNameEditText.setText(name);
+        } else {
+            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show();
+        }
+        if (!details.isEmpty()) {
+            allergyDetailsEditText.setText(details);
+        } else {
+            Toast.makeText(this, "Details are required", Toast.LENGTH_SHORT).show();
+        }
+
+        dynamicAllergiesContainer.addView(itemAllergy);
+
+        deleteAllergyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dynamicAllergiesContainer.removeView(itemAllergy);
+            }
+        });
+
+    }
+
+    private void addItemMedication(String name, String details) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View itemMedication = inflater.inflate(R.layout.item_medication, dynamicMedicationsContainer, false);
+        EditText medicationNameEditText = itemMedication.findViewById(R.id.medicationNameEditText);
+        EditText medicationDetailsEditText = itemMedication.findViewById(R.id.medicationDetailsEditText);
+        Button deleteMedicationButton = itemMedication.findViewById(R.id.deleteMedicationButton);
+
+        if (!name.isEmpty()) {
+            medicationNameEditText.setText(name);
+        } else {
+            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show();
+        }
+        if (!details.isEmpty()) {
+            medicationDetailsEditText.setText(details);
+        } else {
+            Toast.makeText(this, "Details are required", Toast.LENGTH_SHORT).show();
+        }
+
+        dynamicMedicationsContainer.addView(itemMedication);
+
+        deleteMedicationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dynamicMedicationsContainer.removeView(itemMedication);
+            }
+        });
+
+    }
+
+    private void addItemCondition(String name, String details) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View itemCondition = inflater.inflate(R.layout.item_condition, dynamicConditionsContainer, false);
+        EditText conditionNameEditText = itemCondition.findViewById(R.id.conditionNameEditText);
+        EditText conditionDetailsEditText = itemCondition.findViewById(R.id.conditionDetailsEditText);
+        Button deleteConditionButton = itemCondition.findViewById(R.id.deleteConditionButton);
+
+        if (!name.isEmpty()) {
+            conditionNameEditText.setText(name);
+        } else {
+            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show();
+        }
+        if (!details.isEmpty()) {
+            conditionDetailsEditText.setText(details);
+        } else {
+            Toast.makeText(this, "Details are required", Toast.LENGTH_SHORT).show();
+        }
+
+        dynamicConditionsContainer.addView(itemCondition);
+
+        deleteConditionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dynamicConditionsContainer.removeView(itemCondition);
+            }
+        });
+    }
+    private void addItemContact(String name, String relation, String phone) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View itemContact = inflater.inflate(R.layout.item_contact, dynamicContactsContainer, false);
+        EditText contactNameEditText = itemContact.findViewById(R.id.contactNameEditText);
+        EditText contactRelationEditText = itemContact.findViewById(R.id.contactRelationEditText);
+        EditText contactPhoneEditText = itemContact.findViewById(R.id.contactPhoneEditText);
+        Button deleteContactButton = itemContact.findViewById(R.id.deleteContactButton);
+
+        if (!name.isEmpty()) {
+            contactNameEditText.setText(name);
+        } else {
+            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show();
+        }
+        if (!relation.isEmpty()) {
+            contactRelationEditText.setText(relation);
+        } else {
+            Toast.makeText(this, "Relation to contact is required", Toast.LENGTH_SHORT).show();
+        }
+        if (!phone.isEmpty()) {
+            contactPhoneEditText.setText(phone);
+        } else {
+            Toast.makeText(this, "Phone number is required", Toast.LENGTH_SHORT).show();
+        }
+
+        dynamicContactsContainer.addView(itemContact);
+
+        deleteContactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dynamicContactsContainer.removeView(itemContact);
+            }
+        });
+    }
 }

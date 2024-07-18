@@ -205,3 +205,34 @@ future steps:
 - and way to access medical page from the locked start screen.
 - google maps API
 - improve UI design
+----------------------------------------------------------------------------------------------------
+16/07/2024
+
+tasks completed today:
+- Implemented functionality to add allergies, medications, conditions and emergency contacts dynamically
+- Using a custom layout
+- Retrieved fields from Firestore and displayed them during profile data retrieval in the createmedicalprofile
+- done:  height, weight, dob, address, blood donor, organ donor, allergies, medications, conditions, emergency contacts
+
+- now need to display all the information on the medicalprofileactivity, retrieving from firebase
+- update the medicalprofilelayout UI to include new fields
+
+fixed problems:
+
+current problems:
+- access the medical profile on the first start in the main activity, e.g. a banner that says create your medical profile
+- similar to the email verification one on first start, but the banner will go away when you click on it and say completed.
+
+- the unique userID of phoneauthetnciation and emailpassword authentication are different
+- having problems with implementing a clean UI for the multiple line medical fields.
+
+future steps:
+- maybe: prefernces, disabilities, additional notes
+- adding a loading dialogue where-ever necessary
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- google mail authentication a and sign in
+- password secure settings
+- and way to access medical page from the locked start screen.
+- google maps API
+- chatbot AI
+- improve UI design
