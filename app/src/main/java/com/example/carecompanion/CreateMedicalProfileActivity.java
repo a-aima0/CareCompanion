@@ -43,7 +43,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
     Button gotoMedicalActivityButton, addAllergyButton, saveChangesButton, addMedicationsButton,
             addConditionButton, addContactButton;
     EditText registerWeight, registerHeight, registerDOB, registerFirstLine, registerSecondLine,
-            registerCity, registerPost;
+            registerCity, registerPost, registerInfo;
 
     LinearLayout allergiesContainer, dynamicAllergiesContainer, medicationsContainer,
             dynamicMedicationsContainer, conditionsContainer, dynamicConditionsContainer,
@@ -66,6 +66,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
         registerSecondLine = findViewById(R.id.registerSecondLineAddress);
         registerCity = findViewById(R.id.registerCity);
         registerPost = findViewById(R.id.registerPostalCode);
+        registerInfo = findViewById(R.id.registerInfo);
 
         addAllergyButton = findViewById(R.id.addAllergyButton);
         allergiesContainer = findViewById(R.id.allergiesContainer);
@@ -126,6 +127,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                         registerHeight.setText(documentSnapshot.getString("height"));
                         registerWeight.setText(documentSnapshot.getString("weight"));
                         registerDOB.setText(documentSnapshot.getString("dob"));
+                        registerInfo.setText(documentSnapshot.getString("info"));
 
                         // Split the address back into components
                         String address = documentSnapshot.getString("address");
@@ -255,6 +257,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                 String secondlineAddress = registerSecondLine.getText().toString();
                 String cityAddress = registerCity.getText().toString();
                 String postAddress = registerPost.getText().toString();
+                String info = registerInfo.getText().toString();
 
                 // extract the selected values from the spinners
                 String bloodType = registerBloodTypeSpinner.getSelectedItem().toString();
@@ -303,6 +306,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                     profileData.put("address", fullAddress);
                     profileData.put("bloodType", bloodType);
                     profileData.put("organDonor", organDonor);
+                    profileData.put("info", info);
 
                     //saving profiledata
                     documentReference.set(profileData)
@@ -352,7 +356,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onSuccess(DocumentReference documentReference) {
                                                             Log.d(TAG, "onSuccess: allergy successfully saved");
-                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Allergy saved successfully", Toast.LENGTH_SHORT).show();
+//                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Allergy saved successfully", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                         @Override
@@ -405,7 +409,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onSuccess(DocumentReference documentReference) {
                                                             Log.d(TAG, "onSuccess: medication successfully saved");
-                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Medication saved successfully", Toast.LENGTH_SHORT).show();
+//                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Medication saved successfully", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                         @Override
@@ -460,7 +464,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onSuccess(DocumentReference documentReference) {
                                                             Log.d(TAG, "onSuccess: conditions successfully saved");
-                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Conditions saved successfully", Toast.LENGTH_SHORT).show();
+//                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Conditions saved successfully", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                         @Override
@@ -517,7 +521,7 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                                                         @Override
                                                         public void onSuccess(DocumentReference documentReference) {
                                                             Log.d(TAG, "onSuccess: contacts successfully saved");
-                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Emergency contacs successfully saved", Toast.LENGTH_SHORT).show();
+//                                                            Toast.makeText(CreateMedicalProfileActivity.this, "Emergency contacts successfully saved", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                         @Override
