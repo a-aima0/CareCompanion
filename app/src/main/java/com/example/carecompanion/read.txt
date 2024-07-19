@@ -206,7 +206,7 @@ future steps:
 - google maps API
 - improve UI design
 ----------------------------------------------------------------------------------------------------
-16/07/2024
+18/07/2024
 
 tasks completed today:
 - Implemented functionality to add allergies, medications, conditions and emergency contacts dynamically
@@ -236,3 +236,34 @@ future steps:
 - google maps API
 - chatbot AI
 - improve UI design
+----------------------------------------------------------------------------------------------------
+19/07/2024
+
+tasks completed today:
+- display all the information on the medicalprofileactivity, retrieving from firebase
+- update the medicalprofilelayout UI to include new fields
+- included additional info
+
+fixed problems:
+
+current problems:
+- access the medical profile on the first start in the main activity, e.g. a banner that says create your medical profile
+- similar to the email verification one on first start, but the banner will go away when you click on it and say completed.
+
+- the unique userID of phoneauthetnciation and emailpassword authentication are different
+
+future steps:
+- adding a loading dialogue where-ever necessary
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- google mail authentication and sign in
+- password secure settings
+- and way to access medical page from the locked start screen.
+- google maps API
+- chatbot AI
+- improve UI design
+
+REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||
+REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||
+REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||
+REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||
+REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||
