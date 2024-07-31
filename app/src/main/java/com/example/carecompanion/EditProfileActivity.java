@@ -49,7 +49,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public static final String TAG = "EditProfileActivity";
     EditText profileEditForename, profileEditSurname, profileEditEmail, profileEditPhone, profileEditCCode;
-    Button saveProfileInfoButton, gotoProfileActivityButton;
+    Button saveProfileInfoButton, gotoProfileButton;
     ImageView profileEditImage;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -81,7 +81,7 @@ public class EditProfileActivity extends AppCompatActivity {
         profileEditCCode = findViewById(R.id.profileEditCCode);
         profileEditImage = findViewById(R.id.profileEditImage);
         saveProfileInfoButton = findViewById(R.id.saveProfileInfoButton);
-        gotoProfileActivityButton = findViewById(R.id.gotoProfileActivityButton);
+        gotoProfileButton = findViewById(R.id.gotoProfile);
 
         // Retrieve public data
         DocumentReference publicDocRef = fStore.collection("public").document(user.getUid());
@@ -187,7 +187,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: " + forename + " " + surnames + " " + email + " " + "+" + ccode + " " + phone);
 
-        gotoProfileActivityButton.setOnClickListener(new View.OnClickListener() {
+        gotoProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
@@ -208,7 +208,10 @@ public class EditProfileActivity extends AppCompatActivity {
                     fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Picasso.get().load(uri).into(profileEditImage);
+                            Picasso.get()
+                                    .load(uri)
+                                    .transform(new CircularTransformation())
+                                    .into(profileEditImage);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

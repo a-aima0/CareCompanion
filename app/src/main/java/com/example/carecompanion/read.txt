@@ -261,6 +261,43 @@ future steps:
 - google maps API
 - chatbot AI
 - improve UI design
+- profile pic size limit and dimensions
+----------------------------------------------------------------------------------------------------
+29/07/2024
+
+tasks completed today:
+- loginActivity ui design complete
+- registerActivity ui design complete
+- profileActivity ui design complete
+- medicalprofileActivity ui design complete
+- createmedicalProfileActivity ui design complete
+- editProfileActivity ui design complete
+- profile pic size limit and dimensions
+- mainactivity ui design complete
+- phoneAuthActivity/ resetPassword/ resetEmailPassword ui design complete
+
+- do main page, phone auth , reset password, reset alerts
+- side menu and shift all settings funcitons to the settings activity
+
+fixed problems:
+
+current problems:
+- access the medical profile on the first start in the main activity, e.g. a banner that says create your medical profile
+- similar to the email verification one on first start, but the banner will go away when you click on it and say completed.
+
+- login and register not showing correclty
+- fix colours of all alerts
+
+- the unique userID of phoneauthetnciation and emailpassword authentication are different
+
+future steps:
+- adding a loading dialogue where-ever necessary
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- google mail authentication and sign in
+- password secure settings
+- and way to access medical page from the locked start screen.
+- google maps API
+- chatbot AI
 
 REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||
 REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||
