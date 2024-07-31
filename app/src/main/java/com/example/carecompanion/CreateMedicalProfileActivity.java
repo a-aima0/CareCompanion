@@ -87,16 +87,18 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
         gotoMedicalActivityButton = findViewById(R.id.gotoMedicalActivity);
         saveChangesButton = findViewById(R.id.saveChangesButton);
 
+
         registerBloodTypeSpinner = findViewById(R.id.registerBloodTypeSpinner);
         ArrayAdapter<CharSequence> bloodAdapter = ArrayAdapter
-                .createFromResource(this, R.array.blood_type_options, android.R.layout.simple_spinner_item);
-        bloodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                .createFromResource(this, R.array.blood_type_options, R.layout.spinner_item);
+        bloodAdapter.setDropDownViewResource(R.layout.spinner_item);
         registerBloodTypeSpinner.setAdapter(bloodAdapter);
+
 
         registerOrganSpinner = findViewById(R.id.registerOrganSpinner);
         ArrayAdapter<CharSequence> organAdapter = ArrayAdapter
-                .createFromResource(this, R.array.organ_donor_options, android.R.layout.simple_spinner_item);
-        organAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                .createFromResource(this, R.array.organ_donor_options,R.layout.spinner_item);
+        organAdapter.setDropDownViewResource(R.layout.spinner_item);
         registerOrganSpinner.setAdapter(organAdapter);
 
         fAuth = FirebaseAuth.getInstance();
@@ -148,11 +150,11 @@ public class CreateMedicalProfileActivity extends AppCompatActivity {
                             registerBloodTypeSpinner.setSelection(bloodTypePosition);
                         }
 
-                        String organDonor = documentSnapshot.getString("organDonor");
-                        if (organDonor != null) {
-                            int organDonorPosition = organAdapter.getPosition(organDonor);
-                            registerOrganSpinner.setSelection(organDonorPosition);
-                        }
+//                        String organDonor = documentSnapshot.getString("organDonor");
+//                        if (organDonor != null) {
+//                            int organDonorPosition = organAdapter.getPosition(organDonor);
+//                            registerOrganSpinner.setSelection(organDonorPosition);
+//                        }
 
                         // retrieve and display allergies
                         documentReference.collection("allergies").get()

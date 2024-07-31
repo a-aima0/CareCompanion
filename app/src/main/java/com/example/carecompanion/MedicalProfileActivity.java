@@ -38,7 +38,7 @@ import java.util.Map;
 public class MedicalProfileActivity extends AppCompatActivity {
 
     public static final String TAG = "MedicalProfileActivity";
-    Button gotoCreateMedicalProfileButton, gotoProfileButon;
+    Button gotoCreateMedicalProfileButton, gotoHomeButton;
     TextView medicalWeight, medicalHeight, medicalDOB, medicalAddress, medicalBlood, medicalOrgan,
             medicalAllergies, medicalConditions, medicalMedication, medicalContacts, medicalInfo;
     FirebaseFirestore fStore;
@@ -66,7 +66,7 @@ public class MedicalProfileActivity extends AppCompatActivity {
         medicalContacts = findViewById(R.id.medicalContacts);
 
         gotoCreateMedicalProfileButton = findViewById(R.id.gotoCreateMedicalActivity);
-        gotoProfileButon = findViewById(R.id.gotoProfile);
+        gotoHomeButton = findViewById(R.id.gotoHome);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -199,10 +199,10 @@ public class MedicalProfileActivity extends AppCompatActivity {
             }
         });
 
-        gotoProfileButon.setOnClickListener(new View.OnClickListener() {
+        gotoHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
 

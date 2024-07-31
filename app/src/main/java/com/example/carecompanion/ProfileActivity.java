@@ -37,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
     TextView profileForename, profileSurname, profileEmail, profilePhone, profileCCode;
-    Button gotoHomeButton, changeProfileButton, gotoMedicalProfileButton;
+    Button gotoHomeButton, changeProfileButton;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
@@ -56,9 +56,9 @@ public class ProfileActivity extends AppCompatActivity {
         profileCCode = findViewById(R.id.profileCCode);
         profilePhone = findViewById(R.id.profilePhone);
         profileImage = findViewById(R.id.profileImage);
+
         changeProfileButton = findViewById(R.id.changeProfileButton);
         gotoHomeButton = findViewById(R.id.gotoHomeButton);
-        gotoMedicalProfileButton = findViewById(R.id.gotoMedicalActivity);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -68,8 +68,12 @@ public class ProfileActivity extends AppCompatActivity {
         profileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(profileImage);
+                Picasso.get()
+                        .load(uri)
+                        .transform(new CircularTransformation())
+                        .into(profileImage);
             }
+
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -78,6 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: Profile image not found, setting placeholder", e);
             }
         });
+
 
 
         userID = fAuth.getCurrentUser().getUid();
@@ -141,12 +146,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        gotoMedicalProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MedicalProfileActivity.class));
-            }
-        });
     }
 
     @Override

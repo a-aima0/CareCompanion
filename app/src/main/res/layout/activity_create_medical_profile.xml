@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
+    android:background="@color/white"
     tools:context=".CreateMedicalProfileActivity">
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,66 +17,148 @@
         android:id="@+id/gotoMedicalActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintHorizontal_bias="0.015"
         android:text="Return"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/dark_blue"
         app:layout_constraintEnd_toStartOf="@+id/saveChangesButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/dark_blue"
+        app:strokeWidth="1dp"  />
 
     <Button
         android:id="@+id/saveChangesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="Save Changes"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/dark_blue"
+        app:strokeColor="@color/dark_blue"
+        app:strokeWidth="1dp" />
+
+    <TextView
+        android:id="@+id/textWeight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:text="Weight (KG)"
+        android:drawableStart="@drawable/scale_final"
+        android:drawablePadding="18dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gotoMedicalActivity" />
 
     <EditText
-            android:id="@+id/registerWeight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:inputType="number"
-            android:hint="Weight (KG)"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gotoMedicalActivity" />
+        android:id="@+id/registerWeight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_outline"
+        android:layout_marginEnd="16dp"
+        android:width="2dp"
+        android:ems="10"
+        android:hint="Weight (KG)"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_blue"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textWeight" />
 
-        <EditText
-            android:id="@+id/registerHeight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:inputType="number"
-            android:hint="Height (CM)"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/registerWeight" />
+    <TextView
+        android:id="@+id/textHeight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:text="Height (CM)"
+        android:textColor="@color/dark_blue"
+        android:drawableStart="@drawable/height"
+        android:drawablePadding="18dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerWeight" />
 
-        <EditText
+
+    <EditText
+        android:id="@+id/registerHeight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_outline"
+        android:ems="10"
+        android:hint="Height (CM)"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_blue"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textHeight" />
+
+    <TextView
+        android:id="@+id/textDOB"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:text="Date of Birth (dd/mm/yyyy)"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerHeight"
+        android:drawableStart="@drawable/calendar"
+        android:drawablePadding="18dp"/>
+
+
+    <EditText
             android:id="@+id/registerDOB"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_outline"
             android:ems="10"
             android:inputType="date"
+            android:textSize="20sp"
+            android:textColorHint="@color/dark_blue"
             android:hint="Date of Birth (dd/mm/yyyy)"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/registerHeight" />
+            app:layout_constraintTop_toBottomOf="@id/textDOB" />
 
         <TextView
             android:id="@+id/textAddress"
@@ -84,14 +167,35 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:textSize="20sp"
             android:ems="10"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_blue"
+            android:drawableStart="@drawable/house_chimney"
+            android:drawablePadding="18dp"
             android:text="Address:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/registerDOB" />
 
-        <EditText
+    <TextView
+        android:id="@+id/textFirstLineAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_blue"
+        android:drawablePadding="18dp"
+        android:text="First Line of Address:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textAddress" />
+
+    <EditText
             android:id="@+id/registerFirstLineAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -100,14 +204,37 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="First Line of Address"
+            android:background="@drawable/edittext_outline"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textColorHint="@color/dark_blue"
             android:inputType="textPostalAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textAddress"
+            app:layout_constraintTop_toBottomOf="@+id/textFirstLineAddress"
             />
 
-        <EditText
+    <TextView
+        android:id="@+id/textSecondLineAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_blue"
+        android:drawablePadding="18dp"
+        android:text="Second Line of Address:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerFirstLineAddress" />
+
+
+
+    <EditText
             android:id="@+id/registerSecondLineAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -116,14 +243,37 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="Second Line of Address"
+            android:background="@drawable/edittext_outline"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textColorHint="@color/dark_blue"
             android:inputType="textPostalAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registerFirstLineAddress"
+            app:layout_constraintTop_toBottomOf="@+id/textSecondLineAddress"
             />
 
-        <EditText
+    <TextView
+        android:id="@+id/textCity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_blue"
+        android:drawablePadding="18dp"
+        android:text="City/Town"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerSecondLineAddress" />
+
+
+
+    <EditText
             android:id="@+id/registerCity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -133,13 +283,36 @@
             android:ems="10"
             android:hint="City/Town"
             android:inputType="textPostalAddress"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:background="@drawable/edittext_outline"
+            android:textColorHint="@color/dark_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registerSecondLineAddress"
+            app:layout_constraintTop_toBottomOf="@+id/textCity"
             />
 
-        <EditText
+    <TextView
+        android:id="@+id/textPostalCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_blue"
+        android:drawablePadding="18dp"
+        android:text="Postal Code:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerCity" />
+
+
+
+    <EditText
             android:id="@+id/registerPostalCode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -150,9 +323,13 @@
             android:hint="Post Code"
             android:inputType="textPostalAddress"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_outline"
             app:layout_constraintHorizontal_bias="0.0"
+            android:textSize="20sp"
+            android:textColorHint="@color/dark_blue"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registerCity"
+            app:layout_constraintTop_toBottomOf="@+id/textPostalCode"
             />
 
         <TextView
@@ -162,9 +339,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:textSize="20sp"
             android:ems="10"
             android:text="Blood Type:"
+            android:textSize="20sp"
+            android:drawableStart="@drawable/blood_type"
+            android:drawablePadding="18dp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/registerPostalCode" />
@@ -173,12 +354,14 @@
             android:id="@+id/registerBloodTypeSpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/edittext_outline"
             app:layout_constraintTop_toBottomOf="@+id/textBloodType" />
 
         <TextView
@@ -189,8 +372,12 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:textSize="20sp"
+            android:drawableStart="@drawable/donate_heart"
+            android:drawablePadding="18dp"
             android:ems="10"
             android:text="Organ Donor?"
+            android:textStyle="bold"
+            android:textColor="@color/dark_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/registerBloodTypeSpinner" />
@@ -199,12 +386,14 @@
             android:id="@+id/registerOrganSpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/edittext_outline"
             app:layout_constraintTop_toBottomOf="@+id/textOrgan" />
 
         <LinearLayout
@@ -224,9 +413,13 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:textSize="20sp"
                 android:ems="10"
+                android:drawableStart="@drawable/face_allergy"
+                android:drawablePadding="18dp"
                 android:text="Allergies"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/allergiesContainer" />
@@ -238,7 +431,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="Add Allergy" />
+                android:text="Add Allergy"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/dark_blue"/>
 
             <LinearLayout
                 android:id="@+id/dynamicAllergiesContainer"
@@ -268,6 +463,10 @@
             android:textSize="20sp"
             android:ems="10"
             android:text="Conditions"
+            android:drawableStart="@drawable/conditions"
+            android:drawablePadding="18dp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/conditionsContainer" />
@@ -279,7 +478,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="Add Medical Condition" />
+            android:text="Add Medical Condition"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/dark_blue"
+            />
 
         <LinearLayout
             android:id="@+id/dynamicConditionsContainer"
@@ -309,7 +511,11 @@
             android:textSize="20sp"
             android:ems="10"
             android:text="Medications"
+            android:textStyle="bold"
+            android:textColor="@color/dark_blue"
             app:layout_constraintEnd_toEndOf="parent"
+            android:drawableStart="@drawable/medicine_bottle"
+            android:drawablePadding="18dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/medicationsContainer" />
 
@@ -320,7 +526,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="Add Medication" />
+            android:text="Add Medication"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/dark_blue" />
 
         <LinearLayout
             android:id="@+id/dynamicMedicationsContainer"
@@ -349,9 +557,13 @@
             android:layout_marginEnd="16dp"
             android:textSize="20sp"
             android:ems="10"
+            android:textStyle="bold"
+            android:textColor="@color/dark_blue"
             android:text="Emergency Contacts"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:drawableStart="@drawable/phone_colour"
+            android:drawablePadding="18dp"
             app:layout_constraintTop_toBottomOf="@+id/contactsContainer" />
 
         <Button
@@ -361,7 +573,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="Add Emergency Contact" />
+            android:text="Add Emergency Contact"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/dark_blue" />
 
         <LinearLayout
             android:id="@+id/dynamicContactsContainer"
@@ -371,21 +585,43 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/registerInfo"
+    <TextView
+        android:id="@+id/textInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:textColor="@color/dark_blue"
+        android:textSize="20sp"
         android:ems="10"
-        android:inputType="textMultiLine"
+        android:text="Additional Information &amp; Preferences"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contactsContainer"
+        android:drawableStart="@drawable/clipboard_list"
+        android:drawablePadding="18dp"/>
+
+    <EditText
+        android:id="@+id/registerInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/edittext_outline"
+        android:ems="10"
         android:hint="Additional Information &amp; Preferences"
+        android:inputType="textMultiLine"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/contactsContainer" />
+        app:layout_constraintTop_toBottomOf="@id/textInfo" />
 
 
 
