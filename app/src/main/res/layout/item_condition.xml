@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <EditText
@@ -13,6 +14,7 @@
         android:layout_marginTop="8dp"
         android:layout_weight="0.15"
         android:inputType="text"
+        android:textSize="18sp"
         android:layout_marginEnd="16dp"
         android:textColor="@color/black"
         android:textColorHint="@color/dark_blue"
@@ -26,6 +28,7 @@
         android:layout_weight="1"
         android:layout_marginStart="16dp"
         android:inputType="textMultiLine"
+        android:textSize="18sp"
         android:textColor="@color/black"
         android:textColorHint="@color/dark_blue"
         android:layout_marginTop="8dp"
@@ -40,8 +43,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:textColor="@color/white"
-        android:backgroundTint="@color/dark_blue"
+        android:background="@color/dark_blue"
         android:layout_marginEnd="16dp"
+        android:textSize="25sp"
         android:text="Delete" />
 
 </LinearLayout>
