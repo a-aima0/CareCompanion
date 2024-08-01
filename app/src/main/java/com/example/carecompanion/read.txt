@@ -298,6 +298,33 @@ future steps:
 - and way to access medical page from the locked start screen.
 - google maps API
 - chatbot AI
+----------------------------------------------------------------------------------------------------
+01/08/24
+
+tasks completed today:
+- xml not loading properly, fixed issues
+- edited login, main, and items
+
+- do main page, phone auth , reset password, reset alerts and colours
+- side menu and shift all settings funcitons to the settings activity
+
+fixed problems:
+
+current problems:
+- access the medical profile on the first start in the main activity, e.g. a banner that says create your medical profile
+- similar to the email verification one on first start, but the banner will go away when you click on it and say completed.
+
+- the unique userID of phoneauthetnciation and emailpassword authentication are different
+
+future steps:
+- adding a loading dialogue where-ever necessary
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- google mail authentication and sign in
+- password secure settings
+- and way to access medical page from the locked start screen.
+- google maps API
+- chatbot AI
+- terms and conditions
 
 REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||
 REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||

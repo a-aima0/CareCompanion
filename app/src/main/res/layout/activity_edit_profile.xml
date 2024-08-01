@@ -216,6 +216,7 @@
         android:textColor="@color/dark_blue"
         app:strokeColor="@color/dark_blue"
         app:strokeWidth="1dp"
+        android:textSize="16sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.015"
