@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,8 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView verifyEmailBanner;
-    Button logoutButton, verifyEmailButton, gotoProfileButton, gotoMedicalActivity;
+    CardView profileCard, medicalCard, settingsCard;
+    Button logoutButton, verifyEmailButton;
     FirebaseAuth fAuth;
     AlertDialog.Builder resetEmailAlert, deleteAlert;
     LayoutInflater inflater;
@@ -38,36 +39,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         logoutButton = findViewById(R.id.logoutButton);
-        gotoProfileButton = findViewById(R.id.gotoProfileButton);
-        gotoMedicalActivity = findViewById(R.id.gotoMedicalProfileActivity);
         verifyEmailButton = findViewById(R.id.verifyEmailButton);
-        verifyEmailBanner = findViewById(R.id.verifyEmailBanner);
 
         resetEmailAlert = new AlertDialog.Builder(this);
         deleteAlert = new AlertDialog.Builder(this);
+
+        profileCard = findViewById(R.id.ProfileCard);
+        medicalCard = findViewById(R.id.medicalProfileCard);
+        settingsCard = findViewById(R.id.settingsCard);
 
         inflater = this.getLayoutInflater();
 
         fAuth = FirebaseAuth.getInstance();
 
-        gotoProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                finish();
-            }
-        });
 
-        gotoMedicalActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CreateMedicalProfileActivity.class));
-            }
-        });
 
         if (!fAuth.getCurrentUser().isEmailVerified()){
             verifyEmailButton.setVisibility(View.VISIBLE);
-            verifyEmailBanner.setVisibility(View.VISIBLE);
         }
 
         verifyEmailButton.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Verification Email Sent", Toast.LENGTH_SHORT).show();
 
                         verifyEmailButton.setVisibility(View.GONE);
-                        verifyEmailBanner.setVisibility(View.GONE);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -100,6 +87,27 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        profileCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            }
+        });
+
+        medicalCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MedicalProfileActivity.class));
+            }
+        });
+
+        settingsCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+            }
+        });
     }
 
     @Override
@@ -114,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (user.isEmailVerified()) {
                         verifyEmailButton.setVisibility(View.GONE);
-                        verifyEmailBanner.setVisibility(View.GONE);
                     }
                 }
             });

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
+    android:background="@color/white"
     tools:context=".MedicalProfileActivity">
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,28 +13,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/medIDText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Medical ID"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_blue"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gotoHome" />
+
+
     <Button
         android:id="@+id/gotoCreateMedicalActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Edit Medical Profile"
-        app:layout_constraintBottom_toTopOf="@id/textWeight"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/dark_blue"
+        android:text="Edit Medical ID"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/gotoProfile"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.985"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/gotoProfile"
+        android:id="@+id/gotoHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile"
-        app:layout_constraintEnd_toStartOf="@id/gotoCreateMedicalActivity"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/white"
+        android:text="Home"
+        android:textColor="@color/dark_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.015"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/dark_blue"
+        app:strokeWidth="1dp" />
 
     <TextView
         android:id="@+id/textWeight"
@@ -44,26 +66,43 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:text="Weight (KG)"
+        android:drawableStart="@drawable/scale_final"
+        android:drawablePadding="18dp"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@color/dark_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gotoProfile" />
+        app:layout_constraintTop_toBottomOf="@id/medIDText" />
 
     <TextView
         android:id="@+id/medicalWeight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:paddingStart="50dp"
         android:ems="10"
-        android:text="Your Weight"
+        android:text="My Weight"
         android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textWeight" />
+
+    <View
+        android:id="@+id/weightLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicalWeight"/>
 
     <TextView
         android:id="@+id/textHeight"
@@ -74,26 +113,46 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:text="Height (CM)"
+        android:textColor="@color/dark_blue"
+        android:drawableStart="@drawable/height"
+        android:drawablePadding="18dp"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/medicalWeight" />
+        app:layout_constraintTop_toBottomOf="@id/weightLine" />
 
     <TextView
         android:id="@+id/medicalHeight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:paddingStart="50dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:text="Your Height"
+        android:text="My Height"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textHeight" />
+
+    <View
+        android:id="@+id/heightLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@color/grey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicalHeight"/>
+
+
+
 
     <TextView
         android:id="@+id/textDOB"
@@ -106,24 +165,43 @@
         android:text="Date of Birth (dd/mm/yyyy)"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@color/dark_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/medicalHeight" />
+        app:layout_constraintTop_toBottomOf="@id/heightLine"
+        android:drawableStart="@drawable/calendar"
+        android:drawablePadding="18dp"/>
 
     <TextView
         android:id="@+id/medicalDOB"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:text="Your DOB"
+        android:text="My DOB"
         android:textSize="18sp"
+        android:paddingStart="50dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textDOB" />
+
+    <View
+        android:id="@+id/dobLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@color/grey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicalDOB"/>
+
+
 
     <TextView
         android:id="@+id/textAddress"
@@ -132,28 +210,44 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:textColor="@color/dark_blue"
         android:ems="10"
         android:text="Address"
+        android:drawableStart="@drawable/house_chimney"
+        android:drawablePadding="18dp"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medicalDOB" />
+        app:layout_constraintTop_toBottomOf="@+id/dobLine" />
 
     <TextView
         android:id="@+id/medicalAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:paddingStart="50dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:text="Your Address"
+        android:text="My Address"
         android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textAddress" />
 
+    <View
+        android:id="@+id/addressLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicalAddress"/>
 
     <TextView
         android:id="@+id/textBloodType"
@@ -162,27 +256,44 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:textColor="@color/dark_blue"
         android:ems="10"
         android:text="Blood Type"
+        android:drawableStart="@drawable/blood_type"
+        android:drawablePadding="18dp"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/medicalAddress" />
+        app:layout_constraintTop_toBottomOf="@id/addressLine" />
 
     <TextView
         android:id="@+id/medicalBloodType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:paddingStart="50dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:text="Your Blood Type"
+        android:text="My Blood Type"
         android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textBloodType" />
+
+    <View
+        android:id="@+id/bloodLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicalBloodType"/>
 
     <TextView
         android:id="@+id/textOrgan"
@@ -191,27 +302,44 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:textColor="@color/dark_blue"
         android:textSize="20sp"
         android:ems="10"
         android:text="Organ Donor"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medicalBloodType" />
+        app:layout_constraintTop_toBottomOf="@+id/bloodLine"
+        android:drawableStart="@drawable/donate_heart"
+        android:drawablePadding="18dp" />
 
     <TextView
         android:id="@+id/medicalOrgan"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:paddingStart="50dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:text="Are you an organ donor?"
+        android:text="Organ donor?"
         android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textOrgan" />
+
+    <View
+        android:id="@+id/organLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicalOrgan"/>
 
     <TextView
         android:id="@+id/textAllergies"
@@ -220,27 +348,45 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:textColor="@color/dark_blue"
         android:textSize="20sp"
         android:ems="10"
         android:text="Allergies"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medicalOrgan" />
+        app:layout_constraintTop_toBottomOf="@+id/organLine"
+        android:drawableStart="@drawable/face_allergy"
+        android:drawablePadding="18dp"/>
 
     <TextView
         android:id="@+id/medicalAllergies"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:paddingStart="50dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:text="Your Allergies"
+        android:text="My Allergies"
         android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textAllergies" />
+
+    <View
+        android:id="@+id/allergyLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicalAllergies"/>
+
 
     <TextView
         android:id="@+id/textConditions"
@@ -249,27 +395,45 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:textColor="@color/dark_blue"
         android:textSize="20sp"
         android:ems="10"
         android:text="Conditions"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medicalAllergies" />
+        app:layout_constraintTop_toBottomOf="@+id/allergyLine"
+        android:drawableStart="@drawable/conditions"
+        android:drawablePadding="18dp"/>
 
     <TextView
         android:id="@+id/medicalConditions"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:paddingStart="50dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:text="Your Conditions"
+        android:text="My Conditions"
         android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textConditions" />
+
+    <View
+        android:id="@+id/conditionLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicalConditions"/>
+
 
     <TextView
         android:id="@+id/textMedications"
@@ -278,27 +442,45 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:textColor="@color/dark_blue"
         android:textSize="20sp"
         android:ems="10"
         android:text="Medications"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medicalConditions" />
+        app:layout_constraintTop_toBottomOf="@+id/conditionLine"
+        android:drawableStart="@drawable/medicine_bottle"
+        android:drawablePadding="18dp"/>
 
     <TextView
         android:id="@+id/medicalMedications"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:paddingStart="50dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:text="Your Medications"
+        android:text="My Medications"
         android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textMedications" />
+
+    <View
+        android:id="@+id/medLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicalMedications"/>
+
 
     <TextView
         android:id="@+id/textContact"
@@ -307,27 +489,45 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:textColor="@color/dark_blue"
         android:textSize="20sp"
         android:ems="10"
         android:text="Contacts"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medicalMedications" />
+        app:layout_constraintTop_toBottomOf="@+id/medLine"
+        android:drawableStart="@drawable/phone_colour"
+        android:drawablePadding="18dp"/>
 
     <TextView
         android:id="@+id/medicalContacts"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:paddingStart="50dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:text="Your Emergency Contacts"
+        android:text="My Emergency Contacts"
         android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textContact" />
+
+    <View
+        android:id="@+id/contactLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@color/grey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medicalContacts"/>
+
 
     <TextView
         android:id="@+id/textInfo"
@@ -336,27 +536,34 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:textColor="@color/dark_blue"
         android:textSize="20sp"
         android:ems="10"
         android:text="Additional Information &amp; Preferences"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medicalContacts" />
+        app:layout_constraintTop_toBottomOf="@+id/contactLine"
+        android:drawableStart="@drawable/clipboard_list"
+        android:drawablePadding="18dp"/>
 
     <TextView
         android:id="@+id/medicalInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:paddingStart="50dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
-        android:text="Your Additional Info"
+        android:text="My Additional Info"
         android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInfo" />
+        app:layout_constraintTop_toBottomOf="@id/textInfo"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 
