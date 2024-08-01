@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/top_background"
             android:layout_width="wrap_content"
-            android:layout_height="280dp"
+            android:layout_height="279dp"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/top_background1"
             tools:ignore="MissingConstraints" />
