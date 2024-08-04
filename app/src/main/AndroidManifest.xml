@@ -11,15 +11,12 @@
         android:label="Care Companion"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CareCompanion"
         tools:targetApi="31">
-        <activity
-            android:name=".SettingsViewsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_settings_views" />
+
         <activity
             android:name=".SettingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.CareCompanionWithBar" />
         <activity
             android:name=".CreateMedicalProfileActivity"
             android:exported="false"
@@ -61,7 +58,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.CareCompanionWithBar" />
+            android:theme="@style/Theme.CareCompanionNoBar" />
     </application>
 
 </manifest>

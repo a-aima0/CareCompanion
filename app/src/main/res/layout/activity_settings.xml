@@ -15,43 +15,73 @@
         android:layout_marginTop="56dp"
         android:text="Settings"
         android:textColor="@color/dark_blue"
-        android:textSize="28sp"
+        android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <Button
         android:id="@+id/homeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Home"
-        android:textSize="24sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/dark_blue"
+        app:strokeColor="@color/dark_blue"
+        app:strokeWidth="1dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.025"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editProfileLine" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-
-    <Button
+    <LinearLayout
         android:id="@+id/editProfileButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:text="Edit Profile"
-        android:textSize="20sp"
-        android:drawableStart="@drawable/scale_final"
-        android:drawablePadding="18dp"
-        android:textStyle="bold"
-        android:textColor="@color/dark_blue"
+        android:padding="8dp"
+        android:background="@drawable/button_background_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settingsTitle" />
+        app:layout_constraintTop_toBottomOf="@id/settingsTitle">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/edit_open"
+            android:clickable="false"
+            android:layout_marginEnd="24dp"/> <!-- Adjust this margin for desired spacing -->
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Edit Personal Profile"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:clickable="false"
+            android:textColor="@color/dark_blue"
+            android:layout_weight="1"
+            android:textAlignment="textStart"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:src="@drawable/arrow_open_right"
+            android:layout_marginStart="24dp"/> <!-- Adjust this margin for desired spacing -->
+
+    </LinearLayout>
+
 
     <View
         android:id="@+id/editProfileLine"
@@ -65,14 +95,101 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editProfileButton"/>
 
-    <Button
+
+    <LinearLayout
         android:id="@+id/editMedicalButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Edit Medical ID"
-        android:textSize="24sp"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
+        android:background="@drawable/button_background_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeButton"/>
+        app:layout_constraintTop_toBottomOf="@id/editProfileLine">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/edit_open"
+            android:clickable="false"
+            android:layout_marginEnd="24dp"/> <!-- Adjust this margin for desired spacing -->
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Edit Medical ID"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:clickable="false"
+            android:textColor="@color/dark_blue"
+            android:layout_weight="1"
+            android:textAlignment="textStart"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:src="@drawable/arrow_open_right"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/editMedicalLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editMedicalButton" />
+
+    <LinearLayout
+        android:id="@+id/logoutButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
+        android:background="@drawable/button_background_red"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editMedicalLine">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:src="@drawable/logout"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:clickable="false"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:paddingEnd="8dp"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

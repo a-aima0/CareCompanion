@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -236,12 +237,15 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
     private void promptPasswordAndReauthenticate(String newEmail) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
         builder.setTitle("Reauthenticate");
         builder.setMessage("Please enter your current password to continue:");
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setBackgroundResource(R.drawable.edittext_outline_blue);
+
+
         builder.setView(input);
 
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
@@ -321,7 +325,21 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        builder.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        // Customizing title and message text programmatically
+        TextView alertTitle = alertDialog.findViewById(androidx.appcompat.R.id.alertTitle);
+        if (alertTitle != null) {
+            alertTitle.setTextColor(getResources().getColor(R.color.dark_blue));
+            alertTitle.setTextSize(20);
+        }
+
+        TextView alertMessage = alertDialog.findViewById(android.R.id.message);
+        if (alertMessage != null) {
+            alertMessage.setTextColor(getResources().getColor(R.color.dark_blue));
+            alertMessage.setTextSize(16);
+        }
     }
 
 }

@@ -124,7 +124,6 @@ public class PhoneAuthActivity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Error checking user existence: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     Log.d(TAG, "onComplete: error checking user existence" + task.getException().getMessage());
-                                    Log.e(TAG, "onComplete: error checking user existence", task.getException());
                                 }
                             }
                         });
