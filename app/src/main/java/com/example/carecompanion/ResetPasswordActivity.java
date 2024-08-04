@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ResetPasswordActivity extends AppCompatActivity {
 
     EditText currentUserPassword, newUserPassword, newConfirmPassword;
-    Button resetPasswordButton, returnHomeButton;
+    Button resetPasswordButton, returnSettingsButton;
     FirebaseUser user;
     FirebaseAuth auth;
 
@@ -33,12 +33,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
         newUserPassword = findViewById(R.id.newUserPassword);
         newConfirmPassword = findViewById(R.id.newConfirmPassword);
         resetPasswordButton = findViewById(R.id.resetPasswordButton);
-        returnHomeButton = findViewById(R.id.returnHomeButton);
+        returnSettingsButton = findViewById(R.id.returnSettingsButton);
 
-        returnHomeButton.setOnClickListener(new View.OnClickListener() {
+        returnSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 finish();
             }
         });
@@ -83,7 +83,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(ResetPasswordActivity.this, "Password Updated", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                             finish();
                         }
                     }).addOnFailureListener(new OnFailureListener() {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -70,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                 // start alert (pop up) dialog
                 View view = inflater.inflate(R.layout.reset_email_password_alert, null);
 
-                resetPasswordAlert.setTitle("Reset Forgotten Password")
+                AlertDialog alertDialog = resetPasswordAlert.setTitle("Reset Forgotten Password")
                         .setMessage("Enter your email to get the password reset link")
                         .setPositiveButton("Reset", new DialogInterface.OnClickListener() {
                             @Override
@@ -97,7 +98,23 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Return", null)
                         .setView(view)
-                        .create().show();
+                        .create();
+
+                alertDialog.getContext().setTheme(R.style.AlertDialogTheme);
+                alertDialog.show();
+
+                // Customizing title and message text programmatically
+                TextView alertTitle = alertDialog.findViewById(androidx.appcompat.R.id.alertTitle);
+                if (alertTitle != null) {
+                    alertTitle.setTextColor(getResources().getColor(R.color.dark_blue));
+                    alertTitle.setTextSize(20);
+                }
+
+                TextView alertMessage = alertDialog.findViewById(android.R.id.message);
+                if (alertMessage != null) {
+                    alertMessage.setTextColor(getResources().getColor(R.color.dark_blue));
+                    alertMessage.setTextSize(16);
+                }
             }
         });
 

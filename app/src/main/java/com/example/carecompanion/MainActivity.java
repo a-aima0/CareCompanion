@@ -28,27 +28,26 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     CardView profileCard, medicalCard, settingsCard;
-    Button logoutButton, verifyEmailButton;
+    Button verifyEmailButton;
     FirebaseAuth fAuth;
-    AlertDialog.Builder resetEmailAlert, deleteAlert;
-    LayoutInflater inflater;
+//    AlertDialog.Builder resetEmailAlert, deleteAlert;
+//    LayoutInflater inflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logoutButton = findViewById(R.id.logoutButton);
         verifyEmailButton = findViewById(R.id.verifyEmailButton);
 
-        resetEmailAlert = new AlertDialog.Builder(this);
-        deleteAlert = new AlertDialog.Builder(this);
+//        resetEmailAlert = new AlertDialog.Builder(this);
+//        deleteAlert = new AlertDialog.Builder(this);
 
         profileCard = findViewById(R.id.ProfileCard);
         medicalCard = findViewById(R.id.medicalProfileCard);
         settingsCard = findViewById(R.id.settingsCard);
 
-        inflater = this.getLayoutInflater();
+//        inflater = this.getLayoutInflater();
 
         fAuth = FirebaseAuth.getInstance();
 
@@ -79,14 +78,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                finish();
-            }
-        });
+
 
         profileCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         settingsCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SettingsViewsActivity.class));
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             }
         });
     }
@@ -126,89 +118,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu (Menu menu){
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.option_menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.resetUserPassword){
-            startActivity(new Intent(getApplicationContext(), ResetPasswordActivity.class));
-        }
-
-        if(item.getItemId() == R.id.updateEmailMenu){
-            // start alert (pop up) dialog
-            View view = inflater.inflate(R.layout.reset_email_password_alert, null);
-
-            EditText email = view.findViewById(R.id.resetPasswordEmailAlert);
-
-            resetEmailAlert.setTitle("Update Email")
-                    .setMessage("Enter new email address")
-                    .setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // validate the email address
-                            String newEmail = email.getText().toString().trim();
-                            if (newEmail.isEmpty()){
-                                email.setError("Required Field");
-                                return;
-                            }
-
-                            // Update email
-                            FirebaseUser user = fAuth.getCurrentUser();
-                            if (user != null) {
-                                user.verifyBeforeUpdateEmail(newEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(MainActivity.this, "Email update requested. Check your email for verification.", Toast.LENGTH_SHORT).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(MainActivity.this, "Email update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    })
-                    .setNegativeButton("Return", null)
-                    .setView(view)
-                    .create().show();
-        }
-
-        if (item.getItemId()==R.id.deleteAccountMenu){
-            deleteAlert.setTitle("Delete account permanently")
-                    .setMessage("Are you sure?")
-                    .setPositiveButton("Delete Account", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            FirebaseUser user = fAuth.getCurrentUser();
-                            user.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(MainActivity.this, "Account deleted", Toast.LENGTH_SHORT).show();
-                                    fAuth.signOut();
-                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                                    finish();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }).setNegativeButton("Cancel", null)
-                    .create()
-                    .show();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 }
