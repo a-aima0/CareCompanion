@@ -379,7 +379,7 @@ current problems:
 
 - the unique userID of phoneauthetnciation and emailpassword authentication are different
 
-- admin can see all data,
+- admin can see all data, changed public collection to authorised access, phoneauth likely doesnt work
 
 future steps:
 - adding a loading dialogue where-ever necessary
