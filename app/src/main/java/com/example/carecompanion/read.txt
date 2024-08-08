@@ -366,20 +366,19 @@ future steps:
 - changemeial move down
 - settings top bar change alert
 ----------------------------------------------------------------------------------------------------
-04/08/24
+07/08/24
 
 tasks completed today:
-- changed public collection to read auth requreid
+- changed public collection to read auth requreid -phoneauth likley doesnt work - havent checked yet lol
+- onboarding process on start up with progress bars to help create profile on first launch
 
 current problems:
-- access the medical profile on the first start in the main activity, e.g. a banner that says create your medical profile
-- similar to the email verification one on first start, but the banner will go away when you click on it and say completed.
-
 - delete account doesnt delete subcollections in profile collections
 
 - the unique userID of phoneauthetnciation and emailpassword authentication are different
 
-- admin can see all data, changed public collection to authorised access, phoneauth likely doesnt work
+- changed public collection to authorised access, phoneauth likely doesnt work
+- admin can see all data - e2e encryption learn
 
 future steps:
 - adding a loading dialogue where-ever necessary
@@ -389,7 +388,6 @@ future steps:
 - and way to access medical page from the locked start screen.
 - google maps API
 - chatbot AI
-- terms and conditions
 - when logout, alert saying do you want to logout
 - capital slogan
 - put alert settings in activity
