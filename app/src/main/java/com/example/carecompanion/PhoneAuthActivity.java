@@ -1,23 +1,15 @@
 package com.example.carecompanion;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,20 +23,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneAuthActivity extends AppCompatActivity {
 
     public static final String TAG = "PhoneAuthActivity";
-    EditText cCode, phoneNumber, inputOTP;
-    Button sendOTPButton, resendOTPButton, verifyOTPButton, gotoLoginActivityButton;
+    EditText cCode, phoneNumber, inputOTP, emailEnter;
+    Button sendOTPButton, resendOTPButton, verifyOTPButton, gotoLoginActivityButton, sendEmailButton;
     String userPhoneNumber, verificationID;
     FirebaseAuth fAuth;
     FirebaseFirestore db;
@@ -60,24 +49,23 @@ public class PhoneAuthActivity extends AppCompatActivity {
         cCode = findViewById(R.id.cCode);
         phoneNumber = findViewById(R.id.phoneNumber);
         inputOTP = findViewById(R.id.inputOTP);
+        emailEnter = findViewById(R.id.emailEnter);
+
         sendOTPButton = findViewById(R.id.sendOTPButton);
         resendOTPButton = findViewById(R.id.resendOTPButton);
         verifyOTPButton = findViewById(R.id.verifyOTPButton);
         gotoLoginActivityButton = findViewById(R.id.gotoLoginActivityButton);
+        sendEmailButton = findViewById(R.id.sendEmailButton);
 
         FirebaseApp.initializeApp(this);
         fAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        currentUser = fAuth.getCurrentUser();
-
-        // Check if user is already authenticated
-
-        if (currentUser != null) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            finish();
-        } else {
-            Log.d(TAG, "User not authenticated");
-        }
+        fAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                currentUser = firebaseAuth.getCurrentUser();
+            }
+        });
 
         gotoLoginActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,31 +90,53 @@ public class PhoneAuthActivity extends AppCompatActivity {
                 // Construct the full phone number
                 userPhoneNumber = "+" + cCode.getText().toString() + phoneNumber.getText().toString();
 
+                verifyPhoneNumber(userPhoneNumber);
 
-                db.collection("public")
-                        .whereEqualTo("ccode", cCode.getText().toString())
-                        .whereEqualTo("phone", phoneNumber.getText().toString())
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if (!task.getResult().isEmpty()) {
-                                        // User exists, send OTP for login
-                                        verifyPhoneNumber(userPhoneNumber);
-                                        Toast.makeText(getApplicationContext(), "Sending OTP to " + userPhoneNumber, Toast.LENGTH_SHORT).show();
-                                        Log.d(TAG, "onComplete: sending OTP");
-                                    } else {
-                                        // User does not exist or combination of ccode and phone not found
-                                        Toast.makeText(getApplicationContext(), "User does not exist or invalid combination of country code and phone number.", Toast.LENGTH_SHORT).show();
-                                        Log.d(TAG, "onComplete: user does not exist or invalid combination of country code and phone number");
-                                    }
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Error checking user existence: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                    Log.d(TAG, "onComplete: error checking user existence" + task.getException().getMessage());
-                                }
-                            }
-                        });
+                //authenticate anonymously
+                fAuth.signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            //annoymous sign-in successful, check if user exists
+
+                            db.collection("private")
+                                    .whereEqualTo("ccode", cCode.getText().toString())
+                                    .whereEqualTo("phone", phoneNumber.getText().toString())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                if (!task.getResult().isEmpty()) {
+                                                    // User exists, send OTP for login
+                                                    verifyPhoneNumber(userPhoneNumber);
+                                                    Toast.makeText(getApplicationContext(), "Sending OTP to " + userPhoneNumber, Toast.LENGTH_SHORT).show();
+                                                    Log.d(TAG, "onComplete: sending OTP");
+                                                } else {
+                                                    // User does not exist or combination of ccode and phone not found
+                                                    Toast.makeText(getApplicationContext(), "User does not exist or invalid combination of country code and phone number.", Toast.LENGTH_SHORT).show();
+                                                    Log.d(TAG, "onComplete: user does not exist or invalid combination of country code and phone number");
+                                                }
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Error checking user existence: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                Log.d(TAG, "onComplete: error checking user existence" + task.getException().getMessage());
+                                            }
+                                        }
+                                    });
+                        } else {
+
+                            Log.e(TAG, "Anonymous authentication failed: " + task.getException().getMessage());
+                            Toast.makeText(PhoneAuthActivity.this, "Anonymous authentication failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PhoneAuthActivity.this, "Authenticated method failed", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onFailure: Authentication method failed" + e.getMessage() );
+                    }
+                });
+
             }
         });
 
@@ -150,14 +160,50 @@ public class PhoneAuthActivity extends AppCompatActivity {
                     return;
                 }
                 PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationID, inputOTP.getText().toString());
-                authenticateUser(credential);
+
+                emailEnter.setVisibility(View.VISIBLE);
+                sendEmailButton.setVisibility(View.VISIBLE);
             }
         });
+
+        sendEmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = emailEnter.getText().toString().trim();
+//                validate the email address
+                if (emailEnter.getText().toString().isEmpty()){
+                    emailEnter.setError("Required Field");
+                    return;
+                } else if (!isValidEmail(email)){
+                    emailEnter.setError("Invalid email address");
+                    return;
+                }
+
+                // send the reset link
+                fAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(PhoneAuthActivity.this, "Reset email sent", Toast.LENGTH_SHORT).show();
+                        emailEnter.setText(""); // Clear the email field
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PhoneAuthActivity.this, "Resent email unable to send", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onFailure: Failed to send reset email", e);
+                    }
+                });
+            }
+        });
+
 
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                authenticateUser(phoneAuthCredential);
+
+
+                emailEnter.setVisibility(View.VISIBLE);
+                sendEmailButton.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -202,31 +248,17 @@ public class PhoneAuthActivity extends AppCompatActivity {
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-    public void authenticateUser(PhoneAuthCredential credential) {
-        fAuth.signInWithCredential(credential)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        // User authentication successful, proceed to MainActivity
-                        Toast.makeText(PhoneAuthActivity.this, "User verified successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // User authentication failed
-                        Toast.makeText(PhoneAuthActivity.this, "Authentication failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "Authentication failed: " + e.getMessage());
-                    }
-                });
+    private boolean isValidEmail(String email) {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        return email.matches(emailPattern);
     }
+
+
     @Override
     protected void onStart() {
         super.onStart();
         if (currentUser != null) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), PhoneAuthActivity.class));
             finish();
         }
     }

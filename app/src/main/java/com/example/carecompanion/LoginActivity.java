@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = null;
     EditText loginEmail, loginPassword;
-    Button createAccountButton, loginButton, forgetPasswordButton, gotoPhoneActivityButton;
+    Button createAccountButton, loginButton, forgetPasswordButton;
     FirebaseAuth fAuth;
     FirebaseUser currentUser;
     AlertDialog.Builder resetPasswordAlert;
@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
         createAccountButton = findViewById(R.id.createAccountButton);
-        gotoPhoneActivityButton = findViewById(R.id.gotoPhoneActivityButton);
 
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,36 +67,15 @@ public class LoginActivity extends AppCompatActivity {
         forgetPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // start alert (pop up) dialog
-                View view = inflater.inflate(R.layout.reset_email_password_alert, null);
-
                 AlertDialog alertDialog = resetPasswordAlert.setTitle("Reset Forgotten Password")
-                        .setMessage("Enter your email to get the password reset link")
+                        .setMessage("Click the button and follow the instructions to reset your forgotten password")
+                        .setNegativeButton("Return", null)
                         .setPositiveButton("Reset", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // validate the email address
-                                EditText email = view.findViewById(R.id.resetPasswordEmailAlert);
-                                if (email.getText().toString().isEmpty()){
-                                    email.setError("Required Field");
-                                    return;
-                                }
-
-                                // send the reset link
-                                fAuth.sendPasswordResetEmail(email.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(LoginActivity.this, "Reset email sent", Toast.LENGTH_SHORT).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-
-                                    }
-                                });
+                                startActivity(new Intent(getApplicationContext(), PhoneAuthActivity.class));
                             }
-                        }).setNegativeButton("Return", null)
-                        .setView(view)
+                        })
                         .create();
 
                 alertDialog.getContext().setTheme(R.style.AlertDialogTheme);
@@ -153,12 +131,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        gotoPhoneActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), PhoneAuthActivity.class));
-            }
-        });
 
 
 

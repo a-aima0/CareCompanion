@@ -126,31 +126,34 @@ public class RegisterActivity extends AppCompatActivity {
                         // create user collection in firestore
                         userID = fAuth.getCurrentUser().getUid();
 
-                        // Public data
-                        DocumentReference publicDocRef = fStore.collection("public").document(userID);
-                        Map<String, Object> publicData = new HashMap<>();
-                        publicData.put("forename", forename);
-                        publicData.put("ccode", ccode);
-                        publicData.put("phone", phone);
+//                        // Public data
+//                        DocumentReference publicDocRef = fStore.collection("public").document(userID);
+//                        Map<String, Object> publicData = new HashMap<>();
+//                        publicData.put("forename", forename);
+//                        publicData.put("ccode", ccode);
+//                        publicData.put("phone", phone);
 
                         // Private data
                         DocumentReference privateDocRef = fStore.collection("private").document(userID);
                         Map<String, Object> privateData = new HashMap<>();
+                        privateData.put("forename", forename);
+                        privateData.put("ccode", ccode);
+                        privateData.put("phone", phone);
                         privateData.put("surnames", surnames);
                         privateData.put("email", email);
 
-                        // Save public data
-                        publicDocRef.set(publicData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Log.d(TAG, "onSuccess: user public profile is created for " + userID);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "onFailure: " + e.getMessage());
-                            }
-                        });
+//                        // Save public data
+//                        publicDocRef.set(publicData).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                Log.d(TAG, "onSuccess: user public profile is created for " + userID);
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.d(TAG, "onFailure: " + e.getMessage());
+//                            }
+//                        });
 
                         // Save private data
                         privateDocRef.set(privateData).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -165,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         });
 
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

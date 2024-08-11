@@ -94,23 +94,23 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        DocumentReference publicDocRef = fStore.collection("public").document(userID);
-        publicDocRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error fetching public profile data: " + e.getMessage());
-                    return;
-                }
-                if (documentSnapshot != null && documentSnapshot.exists()) {
-                    profileForename.setText(documentSnapshot.getString("forename"));
-                    profileCCode.setText(documentSnapshot.getString("ccode"));
-                    profilePhone.setText(documentSnapshot.getString("phone"));
-                } else {
-                    Log.d(TAG, "No such document in public collection");
-                }
-            }
-        });
+//        DocumentReference publicDocRef = fStore.collection("public").document(userID);
+//        publicDocRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+//                if (e != null) {
+//                    Log.e(TAG, "Error fetching public profile data: " + e.getMessage());
+//                    return;
+//                }
+//                if (documentSnapshot != null && documentSnapshot.exists()) {
+//                    profileForename.setText(documentSnapshot.getString("forename"));
+//                    profileCCode.setText(documentSnapshot.getString("ccode"));
+//                    profilePhone.setText(documentSnapshot.getString("phone"));
+//                } else {
+//                    Log.d(TAG, "No such document in public collection");
+//                }
+//            }
+//        });
 
         DocumentReference privateDocRef = fStore.collection("private").document(userID);
         privateDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -119,6 +119,9 @@ public class ProfileActivity extends AppCompatActivity {
                 if (documentSnapshot.exists()) {
                     profileSurname.setText(documentSnapshot.getString("surnames"));
                     profileEmail.setText(documentSnapshot.getString("email"));
+                    profileForename.setText(documentSnapshot.getString("forename"));
+                    profileCCode.setText(documentSnapshot.getString("ccode"));
+                    profilePhone.setText(documentSnapshot.getString("phone"));
                 } else {
                     Log.d(TAG, "No such document in private collection");
                 }

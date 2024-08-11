@@ -182,28 +182,28 @@
             app:layout_constraintTop_toBottomOf="@+id/createAccountButton" />
 
 
-        <Button
-            android:id="@+id/gotoPhoneActivityButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:textSize="14sp"
-            android:drawablePadding="15dp"
-            android:padding="8dp"
-            style="@style/ButtonPrimaryVariant"
-            android:background="@drawable/button_background_blue"
-            android:drawableLeft="@drawable/phone"
-            android:text="Login with Phone number"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.491"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+<!--        <Button-->
+<!--            android:id="@+id/gotoPhoneActivityButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:paddingTop="8dp"-->
+<!--            android:paddingBottom="8dp"-->
+<!--            android:textSize="14sp"-->
+<!--            android:drawablePadding="15dp"-->
+<!--            android:padding="8dp"-->
+<!--            style="@style/ButtonPrimaryVariant"-->
+<!--            android:background="@drawable/button_background_blue"-->
+<!--            android:drawableLeft="@drawable/phone"-->
+<!--            android:text="Login with Phone number"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textAlignment="center"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.491"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView" />-->
 
         <Button
             android:id="@+id/googleLogin"
@@ -225,7 +225,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gotoPhoneActivityButton" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
