@@ -400,7 +400,47 @@ future steps:
 - grey for hinttext
 - changemeial move down
 - settings top bar change alert
-- 
+----------------------------------------------------------------------------------------------------
+08/08/24
+
+tasks completed today:
+- after registering, users will go back to login page to login again for confirmation of account being created
+- moved all public collection fields into private, deleted private
+- added phone otp authentication to the forgot password function
+- now enter your phone number to recieve a otp for authentication using anonymous authentication
+- once user is authenticated, enter your email address to reset your password from an email link
+- this has solved the userid problems of authentication and no new account is created
+
+current problems:
+- delete account doesnt delete subcollections in profile collections
+- consider using addons on firebase - delete data function - research
+
+- admin can see all data - e2e encryption learn
+
+- can move between pages and return to prevoisu info
+
+future steps:
+- adding a loading dialogue where-ever necessary
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- google mail authentication and sign in
+- password secure settings
+- and way to access medical page from the locked start screen.
+- google maps API
+- chatbot AI
+- when logout, alert saying do you want to logout
+- capital slogan
+- put alert settings in activity
+- timtim cut off
+- premade avatars
+- editprofile surname icon get rid
+- profile icon resets to square
+- scrolling bar
+- captial Cm and Kg
+- grey for hinttext
+- changemeial move down
+- settings top bar change alert
+
+
 
 REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||
 REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH || REMEMBER TO CREATE NEW BRANCH ||

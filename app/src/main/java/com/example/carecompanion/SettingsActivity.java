@@ -194,44 +194,31 @@ public class SettingsActivity extends AppCompatActivity {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) {
-                                                // Continue deleting from other collections
-                                                fStore.collection("public").document(userId).delete()
+                                                fStore.collection("profile").document(userId).delete()
                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
                                                             public void onSuccess(Void unused) {
-                                                                fStore.collection("profile").document(userId).delete()
-                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                            @Override
-                                                                            public void onSuccess(Void unused) {
-                                                                                user.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                    @Override
-                                                                                    public void onSuccess(Void unused) {
-                                                                                        Toast.makeText(SettingsActivity.this, "Account deleted", Toast.LENGTH_SHORT).show();
-                                                                                        fAuth.signOut();
-                                                                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                                                                                        finish();
-                                                                                    }
-                                                                                }).addOnFailureListener(new OnFailureListener() {
-                                                                                    @Override
-                                                                                    public void onFailure(@NonNull Exception e) {
-                                                                                        Toast.makeText(SettingsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                                                    }
-                                                                                });
-                                                                            }
-                                                                        })
-                                                                        .addOnFailureListener(new OnFailureListener() {
-                                                                            @Override
-                                                                            public void onFailure(@NonNull Exception e) {
-                                                                                Toast.makeText(SettingsActivity.this, "profile collection not deleted", Toast.LENGTH_SHORT).show();
-                                                                                Log.e(TAG, "onFailure: Profile collection not deleted"+e.getMessage());
-                                                                            }
-                                                                        });
+                                                                user.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void unused) {
+                                                                        Toast.makeText(SettingsActivity.this, "Account deleted", Toast.LENGTH_SHORT).show();
+                                                                        fAuth.signOut();
+                                                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                                                        finish();
+                                                                    }
+                                                                }).addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Toast.makeText(SettingsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                });
                                                             }
-                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
                                                             @Override
                                                             public void onFailure(@NonNull Exception e) {
-                                                                Toast.makeText(SettingsActivity.this, "public collection not deleted", Toast.LENGTH_SHORT).show();
-                                                                Log.e(TAG, "onFailure: public collection not deleted"+e.getMessage());
+                                                                Toast.makeText(SettingsActivity.this, "profile collection not deleted", Toast.LENGTH_SHORT).show();
+                                                                Log.e(TAG, "onFailure: Profile collection not deleted"+e.getMessage());
                                                             }
                                                         });
                                             }

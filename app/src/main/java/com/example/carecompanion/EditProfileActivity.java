@@ -84,25 +84,25 @@ public class EditProfileActivity extends AppCompatActivity {
         saveProfileInfoButton = findViewById(R.id.saveProfileInfoButton);
         gotoProfileButton = findViewById(R.id.gotoProfile);
 
-        // Retrieve public data
-        DocumentReference publicDocRef = fStore.collection("public").document(user.getUid());
-        publicDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    profileEditForename.setText(documentSnapshot.getString("forename"));
-                    profileEditCCode.setText(documentSnapshot.getString("ccode"));
-                    profileEditPhone.setText(documentSnapshot.getString("phone"));
-                } else {
-                    Log.d(TAG, "No public document found");
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Failed to retrieve public document: " + e.getMessage());
-            }
-        });
+//        // Retrieve public data
+//        DocumentReference publicDocRef = fStore.collection("public").document(user.getUid());
+//        publicDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                if (documentSnapshot.exists()) {
+//                    profileEditForename.setText(documentSnapshot.getString("forename"));
+//                    profileEditCCode.setText(documentSnapshot.getString("ccode"));
+//                    profileEditPhone.setText(documentSnapshot.getString("phone"));
+//                } else {
+//                    Log.d(TAG, "No public document found");
+//                }
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d(TAG, "Failed to retrieve public document: " + e.getMessage());
+//            }
+//        });
 
         // Retrieve private data
         DocumentReference privateDocRef = fStore.collection("private").document(user.getUid());
@@ -112,6 +112,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 if (documentSnapshot.exists()) {
                     profileEditSurname.setText(documentSnapshot.getString("surnames"));
                     profileEditEmail.setText(documentSnapshot.getString("email"));
+                    profileEditForename.setText(documentSnapshot.getString("forename"));
+                    profileEditCCode.setText(documentSnapshot.getString("ccode"));
+                    profileEditPhone.setText(documentSnapshot.getString("phone"));
                 } else {
                     Log.d(TAG, "No private document found");
                 }
@@ -264,6 +267,9 @@ public class EditProfileActivity extends AppCompatActivity {
                         Map<String, Object> privateUpdates = new HashMap<>();
                         privateUpdates.put("email", newEmail);
                         privateUpdates.put("surnames", profileEditSurname.getText().toString());
+                        privateUpdates.put("forename", profileEditForename.getText().toString());
+                        privateUpdates.put("ccode", profileEditCCode.getText().toString());
+                        privateUpdates.put("phone", profileEditPhone.getText().toString());
 
                         privateDocRef.update(privateUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -271,28 +277,11 @@ public class EditProfileActivity extends AppCompatActivity {
                                 user.verifyBeforeUpdateEmail(newEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        // Update public data
-                                        DocumentReference publicDocRef = fStore.collection("public").document(user.getUid());
-                                        Map<String, Object> publicUpdates = new HashMap<>();
-                                        publicUpdates.put("forename", profileEditForename.getText().toString());
-                                        publicUpdates.put("ccode", profileEditCCode.getText().toString());
-                                        publicUpdates.put("phone", profileEditPhone.getText().toString());
+                                        Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(EditProfileActivity.this, "If email changed, verification link sent", Toast.LENGTH_SHORT).show();
 
-                                        publicDocRef.update(publicUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                                                Toast.makeText(EditProfileActivity.this, "If email changed, verification link sent", Toast.LENGTH_SHORT).show();
-
-                                                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                                                finish();
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(EditProfileActivity.this, "Error updating public data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                                        finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
