@@ -401,7 +401,7 @@ future steps:
 - changemeial move down
 - settings top bar change alert
 ----------------------------------------------------------------------------------------------------
-08/08/24
+11/08/24
 
 tasks completed today:
 - after registering, users will go back to login page to login again for confirmation of account being created
@@ -438,6 +438,37 @@ future steps:
 - captial Cm and Kg
 - grey for hinttext
 - changemeial move down
+- settings top bar change alert
+----------------------------------------------------------------------------------------------------
+11/08/24
+
+tasks completed today:
+- fixed deletion feature - all subcollections and fields within the collections as well as the authentication are deleted
+
+current problems:
+- admin can see all data - e2e encryption learn
+
+- can move between pages and return to prevoisu info - use activity lifecycle methods
+
+future steps:
+- adding a loading dialogue where-ever necessary
+- toast message telling the user the timeout count for them to hit "resend OTP".
+- google mail authentication and sign in
+- password secure settings
+- and way to access medical page from the locked start screen.
+- google maps API
+- chatbot AI
+- when logout, alert saying do you want to logout
+- capital slogan
+- put alert settings in activity
+- timtim cut off
+- premade avatars
+- editprofile surname icon get rid
+- profile icon resets to square
+- scrolling bar
+- captial Cm and Kg
+- grey for hinttext
+- changemedial move down
 - settings top bar change alert
 
 
