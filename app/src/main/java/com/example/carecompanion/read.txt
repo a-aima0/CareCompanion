@@ -439,11 +439,19 @@ future steps:
 - grey for hinttext
 - changemeial move down
 - settings top bar change alert
+
 ----------------------------------------------------------------------------------------------------
-11/08/24
+17/08/24
 
 tasks completed today:
-- fixed deletion feature - all subcollections and fields within the collections as well as the authentication are deleted
+- implemented google authentication
+- medical id is all fine
+
+- when i login to a gmail account with the same email as a emailauth account, it links the accoutns together
+- can sign in with both emails to sign in, to reauthenticate, it uses only the email auth password
+- it doesnt change any fields
+
+- if a new gmail account is used, it saves the forename, surname, and email fields based on the gmail account
 
 current problems:
 - admin can see all data - e2e encryption learn
@@ -456,13 +464,10 @@ future steps:
 - google mail authentication and sign in
 - password secure settings
 - and way to access medical page from the locked start screen.
-- google maps API
-- chatbot AI
 - when logout, alert saying do you want to logout
 - capital slogan
 - put alert settings in activity
-- timtim cut off
-- premade avatars
+- timtim cut off on home page
 - editprofile surname icon get rid
 - profile icon resets to square
 - scrolling bar

@@ -23,6 +23,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -87,8 +90,29 @@ public class SettingsActivity extends AppCompatActivity {
 
         logoutButton.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
+
+            // Sign out from Google
+            GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this,
+                    GoogleSignInOptions.DEFAULT_SIGN_IN);
+            googleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    // Google Sign out successful
+                    Toast.makeText(SettingsActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
+                }
+            });
+
+            // Optionally disconnect the client as well
+            googleSignInClient.revokeAccess().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    // Google revoke access successful
+                }
+            });
+
+
         });
     }
 
@@ -106,133 +130,169 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.updateEmailMenu) {
-            View view = inflater.inflate(R.layout.reset_email_password_alert, null);
-            EditText email = view.findViewById(R.id.resetPasswordEmailAlert);
-
-            AlertDialog alertDialog = resetEmailAlert.setTitle("Update Email")
-                    .setMessage("Enter new email address")
-                    .setPositiveButton("Update", (dialog, which) -> {
-                        String newEmail = email.getText().toString().trim();
-                        if (newEmail.isEmpty()) {
-                            email.setError("Required Field");
-                            return;
-                        }
-
-                        FirebaseUser user = fAuth.getCurrentUser();
-                        if (user != null) {
-                            user.verifyBeforeUpdateEmail(newEmail).addOnSuccessListener(unused -> {
-                                String userId = user.getUid();
-                                fStore.collection("private").document(userId)
-                                        .update("email", newEmail)
-                                        .addOnSuccessListener(unused1 ->
-                                                Toast.makeText(SettingsActivity.this, "Email update requested. Check your email for verification.", Toast.LENGTH_SHORT).show())
-                                        .addOnFailureListener(e ->
-                                                Toast.makeText(SettingsActivity.this, "Failed to update email in Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                            }).addOnFailureListener(e ->
-                                    Toast.makeText(SettingsActivity.this, "Email update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                        }
-                    })
-                    .setNegativeButton("Return", null)
-                    .setView(view)
-                    .create();
-
-            alertDialog.getContext().setTheme(R.style.AlertDialogTheme);
-            alertDialog.show();
-
-            TextView alertTitle = alertDialog.findViewById(androidx.appcompat.R.id.alertTitle);
-            if (alertTitle != null) {
-                alertTitle.setTextColor(getResources().getColor(R.color.dark_blue));
-                alertTitle.setTextSize(20);
-            }
-
-            TextView alertMessage = alertDialog.findViewById(android.R.id.message);
-            if (alertMessage != null) {
-                alertMessage.setTextColor(getResources().getColor(R.color.dark_blue));
-                alertMessage.setTextSize(16);
-            }
+            updateEmailDialog();
         }
 
         if (item.getItemId() == R.id.deleteAccountMenu) {
-            AlertDialog alertDialog = deleteAlert.setTitle("Delete account permanently")
-                    .setMessage("Are you sure?")
-                    .setPositiveButton("Delete Account", (dialog, which) -> {
-                        FirebaseUser user = fAuth.getCurrentUser();
-
-                        if (user != null) {
-                            String userId = user.getUid();
-                            deleteUserData(userId).addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    user.delete().addOnSuccessListener(unused -> {
-                                        Toast.makeText(SettingsActivity.this, "Account deleted", Toast.LENGTH_SHORT).show();
-                                        fAuth.signOut();
-                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                                        finish();
-                                    }).addOnFailureListener(e ->
-                                            Toast.makeText(SettingsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
-                                } else {
-                                    Toast.makeText(SettingsActivity.this, "Failed to delete user data: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .create();
-
-            alertDialog.getContext().setTheme(R.style.AlertDialogTheme);
-            alertDialog.show();
-
-            TextView alertTitle = alertDialog.findViewById(androidx.appcompat.R.id.alertTitle);
-            if (alertTitle != null) {
-                alertTitle.setTextColor(getResources().getColor(R.color.dark_blue));
-                alertTitle.setTextSize(20);
-            }
-
-            TextView alertMessage = alertDialog.findViewById(android.R.id.message);
-            if (alertMessage != null) {
-                alertMessage.setTextColor(getResources().getColor(R.color.dark_blue));
-                alertMessage.setTextSize(16);
-            }
+            deleteAccountDialog();
         }
+
         return super.onOptionsItemSelected(item);
     }
 
-    private Task<Void> deleteUserData(String userId) {
-        List<Task<Void>> deleteTasks = new ArrayList<>();
-        List<CollectionReference> collections = Arrays.asList(
-                fStore.collection("private"),
-                fStore.collection("profile"),
-                fStore.collection("profile").document(userId).collection("allergies"),
-                fStore.collection("profile").document(userId).collection("medications"),
-                fStore.collection("profile").document(userId).collection("conditions"),
-                fStore.collection("profile").document(userId).collection("contacts")
-        );
+    private void updateEmailDialog() {
+        View view = inflater.inflate(R.layout.reset_email_password_alert, null);
 
-        for (CollectionReference collectionRef : collections) {
-            deleteTasks.add(deleteCollection(collectionRef));
+        EditText email = view.findViewById(R.id.resetPasswordEmailAlert);
+
+        AlertDialog alertDialog = resetEmailAlert.setTitle("Update Email")
+                .setMessage("Enter new email address")
+                .setPositiveButton("Update", (dialog, which) -> {
+                    String newEmail = email.getText().toString().trim();
+                    if (newEmail.isEmpty()) {
+                        email.setError("Required Field");
+                        return;
+                    }
+
+                    FirebaseUser user = fAuth.getCurrentUser();
+                    if (user != null) {
+                        user.verifyBeforeUpdateEmail(newEmail).addOnSuccessListener(unused -> {
+                            String userId = user.getUid();
+                            fStore.collection("private").document(userId)
+                                    .update("email", newEmail)
+                                    .addOnSuccessListener(unused1 -> Toast.makeText(SettingsActivity.this, "Email update requested. Check your email for verification.", Toast.LENGTH_SHORT).show())
+                                    .addOnFailureListener(e -> Toast.makeText(SettingsActivity.this, "Failed to update email in Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        }).addOnFailureListener(e -> Toast.makeText(SettingsActivity.this, "Email update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                })
+                .setNegativeButton("Return", null)
+                .setView(view)
+                .create();
+
+        alertDialog.getContext().setTheme(R.style.AlertDialogTheme);
+        alertDialog.show();
+
+        TextView alertTitle = alertDialog.findViewById(androidx.appcompat.R.id.alertTitle);
+        if (alertTitle != null) {
+            alertTitle.setTextColor(getResources().getColor(R.color.dark_blue));
+            alertTitle.setTextSize(20);
         }
 
-        return Tasks.whenAll(deleteTasks);
+        TextView alertMessage = alertDialog.findViewById(android.R.id.message);
+        if (alertMessage != null) {
+            alertMessage.setTextColor(getResources().getColor(R.color.dark_blue));
+            alertMessage.setTextSize(16);
+        }
     }
 
-    private Task<Void> deleteCollection(CollectionReference collectionRef) {
-        return collectionRef.get().continueWithTask(task -> {
-            if (task.isSuccessful()) {
-                List<DocumentReference> docsToDelete = new ArrayList<>();
-                for (DocumentSnapshot document : task.getResult()) {
-                    docsToDelete.add(document.getReference());
-                }
-                if (docsToDelete.isEmpty()) {
-                    return Tasks.forResult(null);
-                }
-                WriteBatch batch = fStore.batch();
-                for (DocumentReference docRef : docsToDelete) {
-                    batch.delete(docRef);
-                }
-                return batch.commit();
-            } else {
-                return Tasks.forException(task.getException());
-            }
-        });
+    private void deleteAccountDialog() {
+        AlertDialog alertDialog = deleteAlert.setTitle("Delete account permanently")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Delete Account", (dialog, which) -> {
+                    FirebaseUser user = fAuth.getCurrentUser();
+
+                    if (user != null) {
+                        String userId = user.getUid();
+
+                        deleteFirestoreData(userId, task -> {
+                            if (task.isSuccessful()) {
+                                user.delete().addOnSuccessListener(unused -> {
+                                    Toast.makeText(SettingsActivity.this, "Account deleted", Toast.LENGTH_SHORT).show();
+                                    fAuth.signOut();
+                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                    finish();
+                                }).addOnFailureListener(e -> Toast.makeText(SettingsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
+                            } else {
+                                Toast.makeText(SettingsActivity.this, "Failed to delete Firestore data: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).setNegativeButton("Cancel", null)
+                .create();
+
+        alertDialog.getContext().setTheme(R.style.AlertDialogTheme);
+        alertDialog.show();
+
+        TextView alertTitle = alertDialog.findViewById(androidx.appcompat.R.id.alertTitle);
+        if (alertTitle != null) {
+            alertTitle.setTextColor(getResources().getColor(R.color.dark_blue));
+            alertTitle.setTextSize(20);
+        }
+
+        TextView alertMessage = alertDialog.findViewById(android.R.id.message);
+        if (alertMessage != null) {
+            alertMessage.setTextColor(getResources().getColor(R.color.dark_blue));
+            alertMessage.setTextSize(16);
+        }
+    }
+
+    private void deleteFirestoreData(String userId, OnCompleteListener<Void> onCompleteListener) {
+        // Start the recursive deletion process
+        deleteDocumentWithSubcollections(fStore.collection("private").document(userId))
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Continue deleting from other collections
+                        deleteDocumentWithSubcollections(fStore.collection("public").document(userId))
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        // Continue deleting from the last collection
+                                        deleteDocumentWithSubcollections(fStore.collection("profile").document(userId))
+                                                .addOnCompleteListener(onCompleteListener);
+                                    } else {
+                                        // If failed, pass the failure up
+                                        onCompleteListener.onComplete(task1);
+                                    }
+                                });
+                    } else {
+                        // If failed, pass the failure up
+                        onCompleteListener.onComplete(task);
+                    }
+                });
+    }
+
+    private Task<Void> deleteDocumentWithSubcollections(DocumentReference docRef) {
+        // Get all subcollections in the document
+        return docRef.get()
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        List<Task<Void>> deleteTasks = new ArrayList<>();
+
+                        // Retrieve subcollections of the document
+                        return docRef.getFirestore().collectionGroup(document.getId()).get().continueWithTask(task1 -> {
+                            if (task1.isSuccessful()) {
+                                for (QueryDocumentSnapshot subcollectionDoc : task1.getResult()) {
+                                    deleteTasks.add(deleteCollection(subcollectionDoc.getReference().getParent()));
+                                }
+
+                                // Combine all delete tasks into one task
+                                return Tasks.whenAll(deleteTasks)
+                                        .continueWithTask(task2 -> docRef.delete());
+                            } else {
+                                throw task1.getException();
+                            }
+                        });
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
+    private Task<Void> deleteCollection(CollectionReference collection) {
+        return collection.get()
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        List<Task<Void>> deleteTasks = new ArrayList<>();
+
+                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                            deleteTasks.add(deleteDocumentWithSubcollections(document.getReference()));
+                        }
+
+                        return Tasks.whenAll(deleteTasks);
+                    } else {
+                        throw task.getException();
+                    }
+                });
     }
 }
 

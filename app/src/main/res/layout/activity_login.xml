@@ -206,24 +206,25 @@
 <!--            app:layout_constraintTop_toBottomOf="@+id/textView" />-->
 
         <Button
-            android:id="@+id/googleLogin"
+            android:id="@+id/googleLoginButton"
+            style="@style/ButtonPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:layout_marginEnd="16dp"
-            android:textSize="14sp"
-            android:drawablePadding="15dp"
-            android:padding="8dp"
-            style="@style/ButtonPrimary"
             android:background="@drawable/button_background_red"
             android:drawableLeft="@drawable/google"
+            android:drawablePadding="15dp"
+            android:padding="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:text="Login with Google"
             android:textAlignment="center"
             android:textColor="@color/white"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
