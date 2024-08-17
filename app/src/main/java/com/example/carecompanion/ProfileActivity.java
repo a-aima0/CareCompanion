@@ -125,6 +125,8 @@ public class ProfileActivity extends AppCompatActivity {
                 } else {
                     Log.d(TAG, "No such document in private collection");
                 }
+
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

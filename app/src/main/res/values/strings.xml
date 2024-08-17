@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CareCompanion</string>
+    <string name="web_client_id">882042492952-h1ae6tappomq718anosedaum3p0s2nqj.apps.googleusercontent.com</string>
     <string name="lorem_ipsum">orem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia
         tellus lacus, quis sagittis sem placerat vel. Maecenas ultrices magna quis mauris eleifend,
         in elementum ligula varius. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
