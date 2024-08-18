@@ -114,6 +114,18 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+                // Validate password strength
+                if (!isValidPassword(password)) {
+                    registerPassword.setError("Password must be at least 8 characters long, contain uppercase, lowercase, number, and special character.");
+                    return;
+                }
+
+                if (!isValidEmail(email)){
+                    registerEmail.setError("Invalid email address format");
+                    return;
+                }
+
+
                 // data is validated
                 // register the user
 
@@ -126,12 +138,6 @@ public class RegisterActivity extends AppCompatActivity {
                         // create user collection in firestore
                         userID = fAuth.getCurrentUser().getUid();
 
-//                        // Public data
-//                        DocumentReference publicDocRef = fStore.collection("public").document(userID);
-//                        Map<String, Object> publicData = new HashMap<>();
-//                        publicData.put("forename", forename);
-//                        publicData.put("ccode", ccode);
-//                        publicData.put("phone", phone);
 
                         // Private data
                         DocumentReference privateDocRef = fStore.collection("private").document(userID);
@@ -141,19 +147,6 @@ public class RegisterActivity extends AppCompatActivity {
                         privateData.put("phone", phone);
                         privateData.put("surnames", surnames);
                         privateData.put("email", email);
-
-//                        // Save public data
-//                        publicDocRef.set(publicData).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void unused) {
-//                                Log.d(TAG, "onSuccess: user public profile is created for " + userID);
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.d(TAG, "onFailure: " + e.getMessage());
-//                            }
-//                        });
 
                         // Save private data
                         privateDocRef.set(privateData).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -182,5 +175,16 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private boolean isValidPassword(String password) {
+        // Password pattern: Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
+        return password.matches(passwordPattern);
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        return email.matches(emailPattern);
     }
 }

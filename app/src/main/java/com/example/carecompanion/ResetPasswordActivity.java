@@ -64,12 +64,23 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     newUserPassword.setError("New Passwords do not match");
                     return;
                 }
+                // Validate password strength
+                if (!isValidPassword(newUserPassword.getText().toString())) {
+                    newUserPassword.setError("Password must be at least 8 characters long, contain uppercase, lowercase, number, and special character.");
+                    return;
+                }
 
                 reauthenticateAndChangePassword(currentUserPassword.getText().toString(), newUserPassword.getText().toString());
 
             }
         });
 
+    }
+
+    private boolean isValidPassword(String password) {
+        // Password pattern: Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
+        return password.matches(passwordPattern);
     }
 
     private void reauthenticateAndChangePassword(String currentUserPassword, String newUserPassword) {
