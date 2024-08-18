@@ -476,29 +476,18 @@ future steps:
 - changemedial move down
 - settings top bar change alert
 ----------------------------------------------------------------------------------------------------
-17/08/24
+18/08/24
 
 tasks completed today:
+- minor edits
+- strong password and email security
 
 current problems:
 - admin can see all data - e2e encryption learn
-
 - can move between pages and return to prevoisu info - use activity lifecycle methods
+- profile icon resets to square
 
 future steps:
-- toast message telling the user the timeout count for them to hit "resend OTP".
-- password secure settings
-- and way to access medical page from the locked start screen.
-- when logout, alert saying do you want to logout
-- capital slogan
-- timtim cut off on home page
-- editprofile surname icon get rid
-- profile icon resets to square
-- scrolling bar
-- captial Cm and Kg
-- grey for hinttext
-- changemedical move down
-- settings top bar change alert
 
 
 

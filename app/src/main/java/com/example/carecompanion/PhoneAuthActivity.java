@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ public class PhoneAuthActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore db;
     FirebaseUser currentUser;
+    TextView textView4;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
     PhoneAuthProvider.ForceResendingToken token;
 
@@ -50,6 +52,7 @@ public class PhoneAuthActivity extends AppCompatActivity {
         phoneNumber = findViewById(R.id.phoneNumber);
         inputOTP = findViewById(R.id.inputOTP);
         emailEnter = findViewById(R.id.emailEnter);
+        textView4 = findViewById(R.id.textView4);
 
         sendOTPButton = findViewById(R.id.sendOTPButton);
         resendOTPButton = findViewById(R.id.resendOTPButton);
@@ -163,6 +166,7 @@ public class PhoneAuthActivity extends AppCompatActivity {
 
                 emailEnter.setVisibility(View.VISIBLE);
                 sendEmailButton.setVisibility(View.VISIBLE);
+                textView4.setVisibility(View.VISIBLE);
             }
         });
 
@@ -247,6 +251,7 @@ public class PhoneAuthActivity extends AppCompatActivity {
 
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
+
 
     private boolean isValidEmail(String email) {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
