@@ -42,19 +42,19 @@ Click the "Run" button in Android Studio.
     
 ## Screenshots
 
-| <img src="screenshotImages/Screenshot_20240819_110225.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_110418.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_110650.jpg" width="280" height="620"> |
+| <img src="screenshotImages/Screenshot_20240819_110225.jpg" width="280" height="580"> | <img src="screenshotImages/Screenshot_20240819_110418.jpg" width="280" height="580"> | <img src="screenshotImages/Screenshot_20240819_110650.jpg" width="280" height="580"> |
 |------------------------------------------|------------------------------------------|------------------------------------------|
 | **Login**                           | **Registration**                           | **Reset Password Alert**                           |
 
-| <img src="screenshotImages/Screenshot_20240819_110724.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_110940.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_111115.jpg" width="280" height="620"> |
+| <img src="screenshotImages/Screenshot_20240819_110724.jpg" width="280" height="580"> | <img src="screenshotImages/Screenshot_20240819_110940.jpg" width="280" height="580"> | <img src="screenshotImages/Screenshot_20240819_111115.jpg" width="280" height="580"> |
 |------------------------------------------|------------------------------------------|------------------------------------------|
 | **Reset Password Page**                           | **Home Page**                           | **Personal Profile**                           |
 
-| <img src="screenshotImages/Screenshot_20240819_111129.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_111443.jpg" width="280" height="690"> |<img src="screenshotImages/Screenshot_20240819_111535.jpg" width="280" height="690">  |
+| <img src="screenshotImages/Screenshot_20240819_111129.jpg" width="280" height="580"> | <img src="screenshotImages/Screenshot_20240819_111443.jpg" width="280" height="740"> |<img src="screenshotImages/Screenshot_20240819_111535.jpg" width="280" height="720">  |
 |------------------------------------------|------------------------------------------|------------------------------------------|
 | **Edit Personal Profile**                           | **Edit Medical ID**                           | **Medical ID Page**                           |
 
-|  <img src="screenshotImages/Screenshot_20240819_111545.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_111611.jpg" width="280" height="620"> |
+|  <img src="screenshotImages/Screenshot_20240819_111545.jpg" width="280" height="580"> | <img src="screenshotImages/Screenshot_20240819_111611.jpg" width="280" height="580"> |
 |--------------------------------------------|--------------------------------------------|
 |  **Settings**                            | **Settings Options**                            |
 
