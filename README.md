@@ -42,8 +42,21 @@ Click the "Run" button in Android Studio.
     
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+| ![Login]() | ![Registration]() | ![Reset Password Alert]() |
+|------------------------------------------|------------------------------------------|------------------------------------------|
+| **Login**                           | **Registration**                           | **Reset Password Alert**                           |
 
+| ![Reset Password Page]() | ![Home Page]() | ![Personal Profile]() |
+|------------------------------------------|------------------------------------------|------------------------------------------|
+| **Reset Password Page**                           | **Home Page**                           | **Personal Profile**                           |
+
+| ![Edit Personal Profile]() | ![Edit Medical ID 1]() | ![Edit Medical ID 2]() |
+|------------------------------------------|------------------------------------------|------------------------------------------|
+| **Edit Personal Profile**                           | **Edit Medical ID 1**                           | **Edit Medical ID 2**                           |
+
+| ![Medical ID Page]() | ![Settings]() | ![Settings Options]() |
+|--------------------------------------------|--------------------------------------------|--------------------------------------------|
+| **Medical ID Page**                            | **Settings**                            | **Settings Options**                            |
 
 ## Tech Stack
 
