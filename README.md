@@ -42,21 +42,21 @@ Click the "Run" button in Android Studio.
     
 ## Screenshots
 
-| ![Login]() | ![Registration]() | ![Reset Password Alert]() |
+| <img src="screenshotImages/Screenshot_20240819_110225.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_110418.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_110650.jpg" width="280" height="620"> |
 |------------------------------------------|------------------------------------------|------------------------------------------|
 | **Login**                           | **Registration**                           | **Reset Password Alert**                           |
 
-| ![Reset Password Page]() | ![Home Page]() | ![Personal Profile]() |
+| <img src="screenshotImages/Screenshot_20240819_110724.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_110940.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_111115.jpg" width="280" height="620"> |
 |------------------------------------------|------------------------------------------|------------------------------------------|
 | **Reset Password Page**                           | **Home Page**                           | **Personal Profile**                           |
 
-| ![Edit Personal Profile]() | ![Edit Medical ID 1]() | ![Edit Medical ID 2]() |
+| <img src="screenshotImages/Screenshot_20240819_111129.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_111443.jpg" width="280" height="690"> |<img src="screenshotImages/Screenshot_20240819_111535.jpg" width="280" height="690">  |
 |------------------------------------------|------------------------------------------|------------------------------------------|
-| **Edit Personal Profile**                           | **Edit Medical ID 1**                           | **Edit Medical ID 2**                           |
+| **Edit Personal Profile**                           | **Edit Medical ID**                           | **Medical ID Page**                           |
 
-| ![Medical ID Page]() | ![Settings]() | ![Settings Options]() |
-|--------------------------------------------|--------------------------------------------|--------------------------------------------|
-| **Medical ID Page**                            | **Settings**                            | **Settings Options**                            |
+|  <img src="screenshotImages/Screenshot_20240819_111545.jpg" width="280" height="620"> | <img src="screenshotImages/Screenshot_20240819_111611.jpg" width="280" height="620"> |
+|--------------------------------------------|--------------------------------------------|
+|  **Settings**                            | **Settings Options**                            |
 
 ## Tech Stack
 
