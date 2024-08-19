@@ -68,17 +68,12 @@ Storage: Firebase Storage
 
 Contributions are always welcome!
 
-See [CONTRIBUTING.md]() for ways to get started.
+See [CONTRIBUTING.md](https://github.com/a-aima0/CareCompanion/blob/master/CONTRIBUTING.md) for ways to get started.
 
 
 ## License
 
 
-This project is licensed under the MIT License - see the [LICENSE.md]() file for details
-
-
-## Support
-
-For support, email fake@fake.com or join our Slack channel.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/a-aima0/CareCompanion/blob/master/LICENSE.md) file for details
 
 
