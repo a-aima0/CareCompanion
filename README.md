@@ -68,7 +68,7 @@ Storage: Firebase Storage
 
 Contributions are always welcome!
 
-See [contributing.md]() for ways to get started.
+See [CONTRIBUTING.md]() for ways to get started.
 
 
 ## License
