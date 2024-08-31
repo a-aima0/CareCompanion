@@ -50,13 +50,14 @@ Click the "Run" button in Android Studio.
 |------------------------------------------|------------------------------------------|------------------------------------------|
 | **Reset Password Page**                           | **Home Page**                           | **Personal Profile**                           |
 
-| <img src="screenshotImages/Screenshot_20240819_111129.jpg" width="280" height="580"> | <img src="screenshotImages/Screenshot_20240819_111443.jpg" width="280" height="740"> |<img src="screenshotImages/Screenshot_20240819_111535.jpg" width="280" height="720">  |
+| <img src="screenshotImages/Screenshot_20240819_111129.jpg" width="280" height="580"> | <img src="screenshotImages/Screenshot_20240819_111535.jpg" width="280" height="720"> |<img src="screenshotImages/Screenshot_20240819_111545.jpg" width="280" height="580">  |
 |------------------------------------------|------------------------------------------|------------------------------------------|
-| **Edit Personal Profile**                           | **Edit Medical ID**                           | **Medical ID Page**                           |
+| **Edit Personal Profile**                           |   **Medical ID Page**                          | **Settings**                          |
 
-|  <img src="screenshotImages/Screenshot_20240819_111545.jpg" width="280" height="580"> | <img src="screenshotImages/Screenshot_20240819_111611.jpg" width="280" height="580"> |
-|--------------------------------------------|--------------------------------------------|
-|  **Settings**                            | **Settings Options**                            |
+
+
+
+
 
 ## Tech Stack
 
