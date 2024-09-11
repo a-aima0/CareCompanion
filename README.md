@@ -88,6 +88,6 @@ See [CONTRIBUTING.md](https://github.com/a-aima0/CareCompanion/blob/master/CONTR
 ## License
 
 
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/a-aima0/CareCompanion/blob/master/LICENSE) file for details
+This project is licensed under the GNU General Public License v3.0 License - see the [LICENSE.md](https://github.com/a-aima0/CareCompanion/blob/master/LICENSE) file for details
 
 
